@@ -289,9 +289,12 @@
                      <children>
                         <TableView fx:id="CustomerRecordsTable" layoutX="62.0" layoutY="76.0" prefHeight="300.0" prefWidth="644.0">
                           <columns>
-                            <TableColumn fx:id="CustomerNameCol" prefWidth="157.0" text="Name" />
-                            <TableColumn fx:id="CustomerAddressCol" prefWidth="323.0" text="Address" />
-                              <TableColumn fx:id="CustomerPhoneNumberCol" minWidth="0.0" prefWidth="163.0" text="Phone Number" />
+                            <TableColumn fx:id="CustomerNameCol" prefWidth="118.0" text="Name" />
+                            <TableColumn fx:id="CustomerAddressCol" prefWidth="122.0" text="Address" />
+                              <TableColumn fx:id="CustomerAddress2Col" prefWidth="126.0" text="Address 2" />
+                              <TableColumn fx:id="CustomerCityCol" prefWidth="75.0" text="City" />
+                              <TableColumn fx:id="CustomerCountryCol" prefWidth="92.0" text="Country" />
+                              <TableColumn fx:id="CustomerPhoneNumberCol" maxWidth="161.0" minWidth="0.0" prefWidth="110.0" text="Phone Number" />
                           </columns>
                         </TableView>
                         <Button fx:id="CustomerRecordsDeleteButton" layoutX="642.0" layoutY="387.0" mnemonicParsing="false" onAction="#CustomerRecordsDeleteButtonSelected" prefHeight="34.0" prefWidth="64.0" text="Delete" />

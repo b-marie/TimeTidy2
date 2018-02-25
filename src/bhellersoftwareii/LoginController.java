@@ -49,7 +49,7 @@ public class LoginController implements Initializable {
         System.out.println("French button was pressed!");
     }
     
-    private boolean validate_login(String username, String password) {
+    private boolean validateLogin(String username, String password) {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             
@@ -82,12 +82,9 @@ public class LoginController implements Initializable {
 
     @FXML
     void loginButtonPressed(ActionEvent event) throws IOException {
-        System.out.println("Login button was pressed!");
         
         String userName = usernameEntry.getText();
         String password = passwordEntry.getText();
-        System.out.println(userName);
-        System.out.println(password);
         
         if(userName.isEmpty()){
            Alert usernameEntryAlert = new Alert(Alert.AlertType.WARNING);
@@ -104,7 +101,7 @@ public class LoginController implements Initializable {
            
            passwordEntryAlert.showAndWait();
         } else {
-            if(validate_login(userName, password)) {
+            if(validateLogin(userName, password)) {
                 //Open the home page
                 Parent home = FXMLLoader.load(getClass().getResource("home.fxml"));
                 Scene homePageScene = new Scene(home);

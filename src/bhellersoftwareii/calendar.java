@@ -17,12 +17,23 @@ import java.util.TimeZone;
  */
 public class calendar {
     
+    //Class constructors
+    public String timezone = null;
+    public LocalDateTime now = LocalDateTime.now();
+    public LocalDate today = LocalDate.now();
+    public int year = now.getYear();
+    public int monthValue = now.getMonthValue();
+    public int currentDay = now.getDayOfMonth();
+    
+    
+    
+    
+    public String getTimeZone() {
     //Get the current time zone of the user
     Calendar cal = Calendar.getInstance();
     long milliDiff = cal.get(Calendar.ZONE_OFFSET);
     //Local offset, now loop through available timezone IDs
     String [] ids = TimeZone.getAvailableIDs();
-    String timezone = null;
     for(String id : ids){
         TimeZone tz = TimeZone.getTimeZone(id);
         if(tz.getRawOffset() == milliDiff) {
@@ -31,14 +42,12 @@ public class calendar {
             break;
         }
     }
-    System.out.println(timezone);
-    
+    return timezone;
+    }
     
     //Get current date information
-    LocalDateTime now = LocalDateTime.now();
-    LocalDate today = LocalDate.now();
-    int year = now.getYear();
-    int monthValue = now.getMonthValue();
+    
+    public String getMonth(){
     String month = "";
         if(monthValue == 1){
             month = "January";
@@ -65,23 +74,27 @@ public class calendar {
         } else if(monthValue == 12){
             month = "December";
         }
-    int currentDay = now.getDayOfMonth();
-    
-    Date day = new Date();
-    Calendar calendarDay = Calendar.getInstance();
-    calendarDay.setTime(day);
-    int dayOfWeek = calendarDay.get(Calendar.DAY_OF_WEEK);
-    int weekOfMonth = (currentDay/7);
-    if(weekOfMonth > 0 && (weekOfMonth%7)>0){
-        weekOfMonth++;
+      return month;  
     }
-    //Set the label x and y position
-    int labelXPos = dayOfWeek - 1;
-    int labelYPos = weekOfMonth;
-    String startingCalLabel = "CalendarLabel" + labelXPos + labelYPos;
     
+    //Get month start day
     
-    //Set Labels
+//    Date day = new Date();
+//    Calendar calendarDay = Calendar.getInstance();
+//    calendarDay.setTime(day);
+//    int dayOfWeek = calendarDay.get(Calendar.DAY_OF_WEEK);
+//    int weekOfMonth = (currentDay/7);
+//    if(weekOfMonth > 0 && (weekOfMonth%7)>0){
+//        weekOfMonth++;
+//    }
+//    //Set the label x and y position
+//    int labelXPos = dayOfWeek - 1;
+//    int labelYPos = weekOfMonth;
+//    String startingCalLabel = "CalendarLabel" + labelXPos + labelYPos;
+    
+    //Get number of days in month
+
+    //Set Calendar Labels
 //    TimeZoneLabel.setText(timezone);
 //    CalendarMonthYearText.setText(month + " " + year);
 //    CalendarDateLabel.setText(month + " " + currentDay + ", " + year);
