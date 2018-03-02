@@ -18,17 +18,58 @@ import java.util.TimeZone;
 public class calendar {
     
     //Class constructors
-    public String timezone = null;
-    public LocalDateTime now = LocalDateTime.now();
-    public LocalDate today = LocalDate.now();
-    public int year = now.getYear();
-    public int monthValue = now.getMonthValue();
-    public int currentDay = now.getDayOfMonth();
+    public static String timezone = "";
+    public static LocalDateTime now = LocalDateTime.now();
+    public static LocalDate today = LocalDate.now();
+    public int year = 1990;
+    public static int monthValue = 1;
+    public static int currentDay = 1;
+    public static int firstDayVal = 1;
     
+    public static int getCurrentDay() {
+        return now.getDayOfMonth();
+    }
     
+    public static int getYr(){
+        return now.getYear();
+    }
     
+    public static int getMonthVal() {
+        return now.getMonthValue();
+    }
     
-    public String getTimeZone() {
+    public static String getMonth(){
+    String month = "";
+    int monthVal = getMonthVal();
+        if(monthVal == 1){
+            month = "January";
+        } else if(monthVal == 2){
+            month = "February";
+        } else if(monthVal == 3){
+            month = "March";
+        } else if(monthVal == 4){
+            month = "April";
+        } else if(monthVal == 5){
+            month = "May";
+        } else if(monthVal == 6){
+            month = "June";
+        } else if(monthVal == 7){
+            month = "July";
+        } else if(monthVal == 8){
+            month = "August";
+        } else if(monthVal == 9){
+            month = "September";
+        } else if(monthVal == 10){
+            month = "October";
+        } else if(monthVal == 11){
+            month = "November";
+        } else if(monthVal == 12){
+            month = "December";
+        }
+      return month;  
+    }
+    
+    public static String getTimeZone() {
     //Get the current time zone of the user
     Calendar cal = Calendar.getInstance();
     long milliDiff = cal.get(Calendar.ZONE_OFFSET);
@@ -45,37 +86,12 @@ public class calendar {
     return timezone;
     }
     
-    //Get current date information
-    
-    public String getMonth(){
-    String month = "";
-        if(monthValue == 1){
-            month = "January";
-        } else if(monthValue == 2){
-            month = "February";
-        } else if(monthValue == 3){
-            month = "March";
-        } else if(monthValue == 4){
-            month = "April";
-        } else if(monthValue == 5){
-            month = "May";
-        } else if(monthValue == 6){
-            month = "June";
-        } else if(monthValue == 7){
-            month = "July";
-        } else if(monthValue == 8){
-            month = "August";
-        } else if(monthValue == 9){
-            month = "September";
-        } else if(monthValue == 10){
-            month = "October";
-        } else if(monthValue == 11){
-            month = "November";
-        } else if(monthValue == 12){
-            month = "December";
-        }
-      return month;  
+    public static LocalDate getFirstDayVal(){
+        LocalDate calendarDate = LocalDate.of(getYr(), getMonthVal(), 1);
+        return calendarDate;
     }
+    
+
     
     //Get month start day
     
@@ -94,11 +110,6 @@ public class calendar {
     
     //Get number of days in month
 
-    //Set Calendar Labels
-//    TimeZoneLabel.setText(timezone);
-//    CalendarMonthYearText.setText(month + " " + year);
-//    CalendarDateLabel.setText(month + " " + currentDay + ", " + year);
-//    CalendarDatePicker.setValue(today);
 //    //Set calendar
 //    System.out.println(startingCalLabel);
 //    Label todayLabel = (Label) root.lookup("#startingCalLabel");
