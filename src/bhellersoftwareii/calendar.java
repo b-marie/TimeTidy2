@@ -7,9 +7,11 @@ package bhellersoftwareii;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -25,6 +27,10 @@ public class calendar {
     public static int monthValue = 1;
     public static int currentDay = 1;
     public static int firstDayVal = 1;
+    public static YearMonth currentYearMonth;
+    
+    
+    
     
     public static int getCurrentDay() {
         return now.getDayOfMonth();
@@ -91,48 +97,34 @@ public class calendar {
         return calendarDate;
     }
     
-
+    public static void populateCalendar(YearMonth yearMonth) {
+        //Get the date we want to start with on the calendar
+        LocalDate calendarDate = LocalDate.of(getYr(), getMonthVal(), 1);
+        //Dial back the day until it is SUNDAY
+        while(!calendarDate.getDayOfWeek().toString().equals("SUNDAY")) {
+            calendarDate = calendarDate.minusDays(1);
+        }
+        for(CalendarDay cd : HomeController.allCalendarDays) {
+            if(cd.getChildren().size() != 0) {
+                cd.getChildren().remove(0);
+            }
+            Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
+            cd.setDate(calendarDate);
+            cd.setTopAnchor(txt, 5.0);
+            cd.setLeftAnchor(txt, 5.0);
+            cd.getChildren().add(txt);
+            calendarDate = calendarDate.plusDays(1);
+        }
+    }
     
-    //Get month start day
+    static void previousMonth() {
+        currentYearMonth = currentYearMonth.minusMonths(1);
+        populateCalendar(currentYearMonth);
+    }
     
-//    Date day = new Date();
-//    Calendar calendarDay = Calendar.getInstance();
-//    calendarDay.setTime(day);
-//    int dayOfWeek = calendarDay.get(Calendar.DAY_OF_WEEK);
-//    int weekOfMonth = (currentDay/7);
-//    if(weekOfMonth > 0 && (weekOfMonth%7)>0){
-//        weekOfMonth++;
-//    }
-//    //Set the label x and y position
-//    int labelXPos = dayOfWeek - 1;
-//    int labelYPos = weekOfMonth;
-//    String startingCalLabel = "CalendarLabel" + labelXPos + labelYPos;
-    
-    //Get number of days in month
-
-//    //Set calendar
-//    System.out.println(startingCalLabel);
-//    Label todayLabel = (Label) root.lookup("#startingCalLabel");
-//    CalendarMonthGrid.getChildren();
-    
-//    Node result = null;
-//    ObservableList<Node> calendarChildren = CalendarMonthGrid.getChildren();
-//    for(Node calendarResult : calendarChildren) {
-//        if(CalendarMonthGrid.getRowIndex(calendarResult) == labelXPos && CalendarMonthGrid.getColumnIndex(calendarResult) == labelYPos) {
-//            result = calendarResult;
-//            System.out.println(result);
-//            break;
-//        }
-//    }
-//    try {
-//        Object instance = getClass().getDeclaredField(startingCalLabel).get(this);
-//        Method m = instance.getClass().getMethod("setText", currentDay);
-//    } catch (Exception e) {
-//        e.printStackTrace();
-//    }
-//    int startOfWeek = today.minusDays(today.getDayOfWeek().getValue() - 1) ;
-//    System.out.println(startOfWeek);
-//    LocalDate endOfWeek = startOfWeek.plusDays(6);
-//    System.out.println(endOfWeek);
+    static void nextMonth() {
+        currentYearMonth = currentYearMonth.plusMonths(1);
+        populateCalendar(currentYearMonth);
+    }
     
 }

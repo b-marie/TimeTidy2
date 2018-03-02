@@ -45,214 +45,39 @@
                               <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="68.0" text="Sunday" textAlignment="CENTER">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Sunday" textAlignment="CENTER">
                                  <font>
                                     <Font name="Calibri Light" size="14.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="68.0" text="Monday" textAlignment="CENTER" GridPane.columnIndex="1">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Monday" textAlignment="CENTER" GridPane.columnIndex="1">
                                  <font>
                                     <Font name="Calibri Light" size="14.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="68.0" text="Tuesday" textAlignment="CENTER" GridPane.columnIndex="2">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Tuesday" textAlignment="CENTER" GridPane.columnIndex="2">
                                  <font>
                                     <Font name="Calibri Light" size="14.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="68.0" text="Wednesday" textAlignment="CENTER" GridPane.columnIndex="3">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Wednesday" textAlignment="CENTER" GridPane.columnIndex="3">
                                  <font>
                                     <Font name="Calibri Light" size="14.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="68.0" text="Thursday" textAlignment="CENTER" GridPane.columnIndex="4">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Thursday" textAlignment="CENTER" GridPane.columnIndex="4">
                                  <font>
                                     <Font name="Calibri Light" size="14.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="68.0" text="Friday" textAlignment="CENTER" GridPane.columnIndex="5">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Saturday" textAlignment="CENTER" GridPane.columnIndex="6">
                                  <font>
                                     <Font name="Calibri Light" size="14.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="68.0" text="Saturday" textAlignment="CENTER" GridPane.columnIndex="6">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Friday" textAlignment="CENTER" GridPane.columnIndex="5">
                                  <font>
                                     <Font name="Calibri Light" size="14.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel01" alignment="TOP_LEFT" text="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel11" alignment="TOP_LEFT" prefHeight="22.0" prefWidth="4.0" text="1" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel21" alignment="TOP_LEFT" prefHeight="22.0" prefWidth="4.0" text="1" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel31" alignment="TOP_LEFT" prefHeight="22.0" prefWidth="4.0" text="1" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel41" alignment="TOP_LEFT" prefHeight="22.0" prefWidth="4.0" text="1" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel51" alignment="TOP_LEFT" prefHeight="22.0" prefWidth="4.0" text="1" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel61" alignment="TOP_LEFT" prefHeight="22.0" prefWidth="4.0" text="1" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel02" alignment="TOP_LEFT" text="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel12" alignment="TOP_LEFT" text="1" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel22" alignment="TOP_LEFT" text="1" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel32" alignment="TOP_LEFT" text="1" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel42" alignment="TOP_LEFT" text="1" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel52" alignment="TOP_LEFT" text="1" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel62" alignment="TOP_LEFT" text="1" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel03" alignment="TOP_LEFT" text="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel13" alignment="TOP_LEFT" text="1" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel23" alignment="TOP_LEFT" text="1" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel33" alignment="TOP_LEFT" text="1" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel43" alignment="TOP_LEFT" text="1" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel53" alignment="TOP_LEFT" text="1" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel63" alignment="TOP_LEFT" text="1" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel04" alignment="TOP_LEFT" text="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel14" alignment="TOP_LEFT" text="1" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel24" alignment="TOP_LEFT" text="1" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel34" alignment="TOP_LEFT" text="1" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel44" alignment="TOP_LEFT" text="1" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel54" alignment="TOP_LEFT" text="1" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel64" alignment="TOP_LEFT" text="1" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel05" alignment="TOP_LEFT" text="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel15" alignment="TOP_LEFT" text="1" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel25" alignment="TOP_LEFT" text="1" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel35" alignment="TOP_LEFT" text="1" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel45" alignment="TOP_LEFT" text="1" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel55" alignment="TOP_LEFT" text="1" GridPane.columnIndex="5" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="CalendarLabel65" alignment="TOP_LEFT" text="1" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Calibri Light Italic" size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -263,7 +88,7 @@
                             <TableColumn fx:id="CalendarDayTableAppointmentCol" prefWidth="137.0" text="Appointment" />
                           </columns>
                         </TableView>
-                        <Label fx:id="CalendarMonthYearText" layoutX="31.0" layoutY="15.0" prefHeight="43.0" prefWidth="424.0" text="Month Year" textFill="#ff6519">
+                        <Label fx:id="CalendarMonthYearText" layoutX="31.0" layoutY="16.0" prefHeight="43.0" prefWidth="371.0" text="Month Year" textFill="#ff6519">
                            <font>
                               <Font name="Calibri Bold Italic" size="36.0" />
                            </font>
@@ -279,6 +104,8 @@
                         <Label fx:id="CalendarMonthViewText" alignment="CENTER" layoutX="464.0" layoutY="26.0" prefHeight="17.0" prefWidth="78.0" text="Month View" textFill="#00b2a4" visible="false" />
                         <Label layoutX="39.0" layoutY="398.0" text="Time Zone:" />
                         <Label fx:id="TimeZoneLabel" layoutX="110.0" layoutY="398.0" text="Mountain Standard Time" />
+                        <Button fx:id="BackwardButton" layoutX="285.0" layoutY="389.0" mnemonicParsing="false" onAction="#BackwardButtonPressed" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="&lt;&lt;" />
+                        <Button fx:id="ForwardButton" layoutX="372.0" layoutY="389.0" mnemonicParsing="false" onAction="#ForwardButtonPressed" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="&gt;&gt;" />
                      </children>
                   </AnchorPane>
             </content>

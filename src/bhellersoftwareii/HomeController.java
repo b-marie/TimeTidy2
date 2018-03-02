@@ -5,15 +5,19 @@
  */
 package bhellersoftwareii;
 
+import static bhellersoftwareii.calendar.currentYearMonth;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import javafx.scene.layout.AnchorPane;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -49,13 +54,23 @@ public class HomeController implements Initializable {
         CalendarDateLabel.setText(calendar.getMonth() + " " + calendar.getCurrentDay() + ", " + calendar.getYr());
         CalendarDatePicker.setValue(calendar.today);
         
+        
         //Set calendar
-        System.out.println(calendar.getFirstDayVal());
         //Rows and columns for calendar grid pane
-        
-        
+        for(int i = 1; i < 6; i++) {
+            for(int j = 0; j < 7; j++) {
+                CalendarDay cd = new CalendarDay();
+                cd.setPrefSize(200, 200);
+                CalendarMonthGrid.add(cd, j, i);
+                allCalendarDays.add(cd);
+            }
+        }
+        calendar.populateCalendar(currentYearMonth);
     }    
 
+    static ArrayList<CalendarDay> allCalendarDays = new ArrayList<>(35);
+    
+    
     @FXML
     private Tab CalendarTab;
 
@@ -73,111 +88,6 @@ public class HomeController implements Initializable {
 
     @FXML
     private Label CalendarMonthYearText;
-    
-     @FXML
-    private Label CalendarLabel01;
-
-    @FXML
-    private Label CalendarLabel11;
-
-    @FXML
-    private Label CalendarLabel21;
-
-    @FXML
-    private Label CalendarLabel31;
-
-    @FXML
-    private Label CalendarLabel41;
-
-    @FXML
-    private Label CalendarLabel51;
-
-    @FXML
-    private Label CalendarLabel61;
-
-    @FXML
-    private Label CalendarLabel02;
-
-    @FXML
-    private Label CalendarLabel12;
-
-    @FXML
-    private Label CalendarLabel22;
-
-    @FXML
-    private Label CalendarLabel32;
-
-    @FXML
-    private Label CalendarLabel42;
-
-    @FXML
-    private Label CalendarLabel52;
-
-    @FXML
-    private Label CalendarLabel62;
-
-    @FXML
-    private Label CalendarLabel03;
-
-    @FXML
-    private Label CalendarLabel13;
-
-    @FXML
-    private Label CalendarLabel23;
-
-    @FXML
-    private Label CalendarLabel33;
-
-    @FXML
-    private Label CalendarLabel43;
-
-    @FXML
-    private Label CalendarLabel53;
-
-    @FXML
-    private Label CalendarLabel63;
-
-    @FXML
-    private Label CalendarLabel04;
-
-    @FXML
-    private Label CalendarLabel14;
-
-    @FXML
-    private Label CalendarLabel24;
-
-    @FXML
-    private Label CalendarLabel34;
-
-    @FXML
-    private Label CalendarLabel44;
-
-    @FXML
-    private Label CalendarLabel54;
-
-    @FXML
-    private Label CalendarLabel64;
-
-    @FXML
-    private Label CalendarLabel05;
-
-    @FXML
-    private Label CalendarLabel15;
-
-    @FXML
-    private Label CalendarLabel25;
-
-    @FXML
-    private Label CalendarLabel35;
-
-    @FXML
-    private Label CalendarLabel45;
-
-    @FXML
-    private Label CalendarLabel55;
-
-    @FXML
-    private Label CalendarLabel65;
 
     @FXML
     private Label CalendarDateLabel;
@@ -186,7 +96,7 @@ public class HomeController implements Initializable {
     private Label TimeZoneLabel;
 
     @FXML
-    private DatePicker CalendarDatePicker;
+    DatePicker CalendarDatePicker;
 
     @FXML
     private Label CalendarWeekViewText;
@@ -196,6 +106,12 @@ public class HomeController implements Initializable {
 
     @FXML
     private Button CalendarNewButton;
+    
+    @FXML
+    private Button BackwardButton;
+
+    @FXML
+    private Button ForwardButton;
 
     @FXML
     private Label CalendarMonthViewText;
@@ -282,6 +198,19 @@ public class HomeController implements Initializable {
     @FXML
     void ConsultantScheduleToggleButtonSelected(ActionEvent event) {
         System.out.println("Something happened!");
+    }
+    
+    @FXML
+    void BackwardButtonPressed(ActionEvent event) {
+        calendar.previousMonth();
+        CalendarMonthYearText.setText(calendar.getMonth() + " " + calendar.getYr());
+        CalendarDateLabel.setText(calendar.getMonth() + " " + calendar.getCurrentDay() + ", " + calendar.getYr());
+        CalendarDatePicker.setValue(calendar.today);
+    }
+    
+    @FXML
+    void ForwardButtonPressed(ActionEvent event) {
+        calendar.nextMonth();
     }
 
     @FXML
