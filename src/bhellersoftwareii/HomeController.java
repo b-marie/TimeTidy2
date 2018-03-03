@@ -7,6 +7,7 @@ package bhellersoftwareii;
 
 import static bhellersoftwareii.calendar.currentYearMonth;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.time.LocalDate;
@@ -21,10 +22,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
@@ -33,6 +38,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -97,12 +103,12 @@ public class HomeController implements Initializable {
 
     @FXML
     DatePicker CalendarDatePicker;
-
-    @FXML
-    private Label CalendarWeekViewText;
     
     @FXML
     private Label NameLabel;
+    
+    @FXML
+    private Button WeekViewButton;
 
     @FXML
     private Button CalendarNewButton;
@@ -166,9 +172,23 @@ public class HomeController implements Initializable {
 
     @FXML
     private RadioButton CustomReportToggleButton;
+    
+    @FXML
+    private TableView<?> WeekViewTable;
+    
+    @FXML
+    private Button MonthViewButton;
+    
+    @FXML
+    private Hyperlink CustIDLink;
 
     
     
+    
+    @FXML
+    void CustIDLinkPressed(ActionEvent event) {
+        System.out.println("Customer ID Link Pressed - Add Search Functoin to Find Customer");
+    }
     
     @FXML
     void AppointmentTypeToggleButtonSelected(ActionEvent event) {
@@ -180,20 +200,15 @@ public class HomeController implements Initializable {
         System.out.println("Something happened!");
     }
 
-//    @FXML
-//    void CalendarMonthViewTextClicked(MouseEvent event) {
-//        System.out.println("Something happened!");
-//    }
 
     @FXML
-    void CalendarNewButtonPressed(ActionEvent event) {
-        System.out.println("Something happened!");
+    void CalendarNewButtonPressed(ActionEvent event) throws IOException {
+        Parent newAppt = FXMLLoader.load(getClass().getResource("AddAppointment.fxml"));
+        Scene newApptScene = new Scene(newAppt);
+        Stage homeStage = new Stage();
+        homeStage.setScene(newApptScene);
+        homeStage.show();
     }
-
-//    @FXML
-//    void CalendarWeekViewTextClicked(MouseEvent event) {
-//        System.out.println("Something happened!");
-//    }
 
     @FXML
     void ConsultantScheduleToggleButtonSelected(ActionEvent event) {
@@ -236,6 +251,24 @@ public class HomeController implements Initializable {
     @FXML
     void ReportsGenerateButtonSelected(ActionEvent event) {
         System.out.println("Something happened!");
+    }
+    
+    @FXML
+    void WeekViewButtonPressed(ActionEvent event) {
+        System.out.println("Week view button pressed!");
+        WeekViewTable.setVisible(true);
+        WeekViewButton.setVisible(false);
+        MonthViewButton.setVisible(true);
+        CalendarMonthGrid.setVisible(false);
+    }
+    
+    @FXML
+    void MonthViewButtonPressed(ActionEvent event) {
+        System.out.println("Month view button pressed!");
+        WeekViewTable.setVisible(false);
+        WeekViewButton.setVisible(true);
+        MonthViewButton.setVisible(false);
+        CalendarMonthGrid.setVisible(true);
     }
 
     

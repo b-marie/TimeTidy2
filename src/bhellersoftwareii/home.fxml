@@ -99,13 +99,25 @@
                            </font>
                         </Label>
                         <DatePicker fx:id="CalendarDatePicker" layoutX="569.0" layoutY="389.0" onAction="#CalendarDatePickerSelected" />
-                        <Label fx:id="CalendarWeekViewText" alignment="CENTER" layoutX="461.0" layoutY="37.0" prefHeight="17.0" prefWidth="78.0" text="Week View" textFill="#00b2a4" />
                         <Button fx:id="CalendarNewButton" layoutX="463.0" layoutY="389.0" mnemonicParsing="false" onAction="#CalendarNewButtonPressed" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="New" />
                         <Label fx:id="CalendarMonthViewText" alignment="CENTER" layoutX="464.0" layoutY="26.0" prefHeight="17.0" prefWidth="78.0" text="Month View" textFill="#00b2a4" visible="false" />
                         <Label layoutX="39.0" layoutY="398.0" text="Time Zone:" />
                         <Label fx:id="TimeZoneLabel" layoutX="110.0" layoutY="398.0" text="Mountain Standard Time" />
                         <Button fx:id="BackwardButton" layoutX="285.0" layoutY="389.0" mnemonicParsing="false" onAction="#BackwardButtonPressed" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="&lt;&lt;" />
                         <Button fx:id="ForwardButton" layoutX="372.0" layoutY="389.0" mnemonicParsing="false" onAction="#ForwardButtonPressed" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="&gt;&gt;" />
+                        <Button fx:id="WeekViewButton" layoutX="426.0" layoutY="19.0" mnemonicParsing="false" onAction="#WeekViewButtonPressed" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Week View" />
+                        <TableView fx:id="WeekViewTable" layoutX="31.0" layoutY="59.0" prefHeight="327.0" prefWidth="507.0" visible="false">
+                          <columns>
+                              <TableColumn prefWidth="72.0" text="Sunday" />
+                            <TableColumn prefWidth="72.0" text="Monday" />
+                            <TableColumn prefWidth="72.0" text="Tuesday" />
+                              <TableColumn prefWidth="72.0" text="Wednesday" />
+                              <TableColumn prefWidth="72.0" text="Thursday" />
+                              <TableColumn prefWidth="72.0" text="Friday" />
+                              <TableColumn prefWidth="74.0" text="Saturday" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="MonthViewButton" layoutX="426.0" layoutY="19.0" mnemonicParsing="false" onAction="#MonthViewButtonPressed" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Month View" visible="false" />
                      </children>
                   </AnchorPane>
             </content>
@@ -124,9 +136,9 @@
                               <TableColumn fx:id="CustomerPhoneNumberCol" maxWidth="161.0" minWidth="0.0" prefWidth="110.0" text="Phone Number" />
                           </columns>
                         </TableView>
-                        <Button fx:id="CustomerRecordsDeleteButton" layoutX="642.0" layoutY="387.0" mnemonicParsing="false" onAction="#CustomerRecordsDeleteButtonSelected" prefHeight="34.0" prefWidth="64.0" text="Delete" />
-                        <Button fx:id="CustomerRecordsModifyButton" layoutX="570.0" layoutY="387.0" mnemonicParsing="false" onAction="#CustomerRecordsModifyButtonSelected" prefHeight="34.0" prefWidth="64.0" text="Modify" />
-                        <Button fx:id="CustomerRecordsAddButton" layoutX="495.0" layoutY="387.0" mnemonicParsing="false" onAction="#CustomerRecordsAddButtonSelected" prefHeight="34.0" prefWidth="64.0" text="Add" />
+                        <Button fx:id="CustomerRecordsDeleteButton" layoutX="642.0" layoutY="387.0" mnemonicParsing="false" onAction="#CustomerRecordsDeleteButtonSelected" prefHeight="34.0" prefWidth="64.0" style="-fx-border-color: #FF6519; -fx-background-color: #00B2A4;" text="Delete" />
+                        <Button fx:id="CustomerRecordsModifyButton" layoutX="570.0" layoutY="387.0" mnemonicParsing="false" onAction="#CustomerRecordsModifyButtonSelected" prefHeight="34.0" prefWidth="64.0" style="-fx-border-color: #FF6519; -fx-background-color: #00B2A4;" text="Modify" />
+                        <Button fx:id="CustomerRecordsAddButton" layoutX="495.0" layoutY="387.0" mnemonicParsing="false" onAction="#CustomerRecordsAddButtonSelected" prefHeight="34.0" prefWidth="64.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Add" />
                         <Label layoutX="236.0" layoutY="23.0" prefHeight="35.0" prefWidth="298.0" text="Customer Records" textFill="#ff6519">
                            <font>
                               <Font name="Calibri Bold Italic" size="36.0" />
@@ -154,7 +166,7 @@
                               <ToggleGroup fx:id="ReportsToggle" />
                            </toggleGroup>
                         </RadioButton>
-                        <Button fx:id="ReportsGenerateButton" layoutX="342.0" layoutY="279.0" mnemonicParsing="false" onAction="#ReportsGenerateButtonSelected" prefHeight="36.0" prefWidth="89.0" text="Generate" />
+                        <Button fx:id="ReportsGenerateButton" layoutX="342.0" layoutY="279.0" mnemonicParsing="false" onAction="#ReportsGenerateButtonSelected" prefHeight="36.0" prefWidth="89.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Generate" />
                         <RadioButton fx:id="ConsultantScheduleToggleButton" layoutX="284.0" layoutY="179.0" mnemonicParsing="false" onAction="#ConsultantScheduleToggleButtonSelected" text="Consultant Schedule" toggleGroup="$ReportsToggle">
                            <font>
                               <Font size="14.0" />

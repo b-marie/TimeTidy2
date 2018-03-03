@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: CDC9C9;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="bhellersoftwareii.AddAppointmentController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="SNOW" height="375.0" layoutX="15.0" layoutY="13.0" stroke="BLACK" strokeType="INSIDE" width="573.0" />
+      <Label alignment="CENTER" layoutX="164.0" layoutY="34.0" text="New Appointment" textAlignment="CENTER" textFill="#ff6519">
+         <font>
+            <Font name="Calibri Bold Italic" size="36.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NewApptApptIDEntry" disable="true" layoutX="105.0" layoutY="103.0" prefHeight="26.0" prefWidth="101.0" />
+      <Label layoutX="45.0" layoutY="107.0" text="Appt. ID">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NewApptCustIDEntry" layoutX="105.0" layoutY="141.0" prefHeight="26.0" prefWidth="101.0" />
+      <TextField fx:id="NewApptTitleTextEntry" layoutX="286.0" layoutY="90.0" prefHeight="26.0" prefWidth="255.0" />
+      <Label layoutX="230.0" layoutY="94.0" text="Title">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NewApptDescTextEntry" layoutX="286.0" layoutY="120.0" prefHeight="118.0" prefWidth="255.0" />
+      <Label layoutX="210.0" layoutY="171.0" text="Description">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NewApptLocTextEntry" layoutX="286.0" layoutY="250.0" prefHeight="26.0" prefWidth="255.0" />
+      <Label layoutX="219.0" layoutY="256.0" text="Location">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NewApptContactTextEntry" layoutX="286.0" layoutY="283.0" prefHeight="26.0" prefWidth="255.0" />
+      <Label layoutX="219.0" layoutY="288.0" text="Contact">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NewApptURLTextEntry" layoutX="286.0" layoutY="319.0" prefHeight="26.0" prefWidth="255.0" />
+      <Label layoutX="230.0" layoutY="324.0" text="URL">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="NewApptDatePicker" layoutX="33.0" layoutY="212.0" />
+      <Label layoutX="98.0" layoutY="187.0" text="Date">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NewApptStartTimeEntry" layoutX="106.0" layoutY="254.0" prefHeight="26.0" prefWidth="101.0" />
+      <Label layoutX="40.0" layoutY="259.0" text="Start Time">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NewApptEndTimeEntry" layoutX="106.0" layoutY="287.0" prefHeight="26.0" prefWidth="101.0" />
+      <Label layoutX="42.0" layoutY="292.0" text="End Time">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="NewApptCancelButton" layoutX="42.0" layoutY="333.0" mnemonicParsing="false" onAction="#NewApptCancelButtonPressed" prefHeight="34.0" prefWidth="72.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Cancel" />
+      <Button fx:id="NewApptSaveButton" layoutX="128.0" layoutY="333.0" mnemonicParsing="false" onAction="#NewApptSaveButtonPressed" prefHeight="34.0" prefWidth="72.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Save" />
+      <Hyperlink fx:id="CustIDLink" layoutX="41.0" layoutY="142.0" onAction="#CustIDLinkPressed" text="Cust. ID">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Hyperlink>
+   </children>
+</AnchorPane>

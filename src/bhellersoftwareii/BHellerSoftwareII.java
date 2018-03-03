@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 public class BHellerSoftwareII extends Application {
     public static Scene mainScene;
     static Stage stage1;
+    static Stage stage2;
     
 //    static Stage stage2;
     
@@ -34,6 +35,7 @@ public class BHellerSoftwareII extends Application {
         
         
         stage1 = stage;
+        
         
         Parent main = FXMLLoader.load(getClass().getResource("login.fxml"));
         
