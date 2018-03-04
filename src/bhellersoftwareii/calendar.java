@@ -118,11 +118,13 @@ public class calendar {
     }
     
     static void previousMonth() {
+        System.out.println("Go to the last month!");
         currentYearMonth = currentYearMonth.minusMonths(1);
         populateCalendar(currentYearMonth);
     }
     
     static void nextMonth() {
+        System.out.println("Go to the next month!");
         currentYearMonth = currentYearMonth.plusMonths(1);
         populateCalendar(currentYearMonth);
     }

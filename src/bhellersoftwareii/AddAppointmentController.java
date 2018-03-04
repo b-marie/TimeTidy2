@@ -72,12 +72,13 @@ public class AddAppointmentController implements Initializable {
 
     @FXML
     void NewApptCancelButtonPressed(ActionEvent event) throws IOException {
-        System.out.println("Cancel button pressed");
+        //Confirm they want to cancel
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Please confirm");
         confirm.setHeaderText("Appointment will not be saved");
         confirm.setContentText("Are you sure you wish to exit without saving?");
 
+        //Close the window
         Optional<ButtonType> result = confirm.showAndWait();
         if (result.get() == ButtonType.OK){
             Stage stage = (Stage) NewApptCancelButton.getScene().getWindow();
@@ -90,5 +91,13 @@ public class AddAppointmentController implements Initializable {
     @FXML
     void NewApptSaveButtonPressed(ActionEvent event) {
         System.out.println("Save button pressed");
+        //Save data from this form to database
+    }
+    
+    @FXML
+    void CustIDLinkPressed(ActionEvent event) {
+        System.out.println("Cust ID Link Pressed");
+        //Open another window with a search/table of customers and allow someone to select customers
     }
 }
+

@@ -16,25 +16,27 @@ import javafx.collections.ObservableList;
  */
 public class customer {
     private static ObservableList<customer> customerList = FXCollections.observableArrayList();
-    private SimpleIntegerProperty customerID = new SimpleIntegerProperty(0);
-    private SimpleStringProperty customerName = new SimpleStringProperty("");
-    private SimpleIntegerProperty customerAddressID = new SimpleIntegerProperty(0);
-    private SimpleStringProperty customerAddressText = new SimpleStringProperty("");
-    private SimpleStringProperty customerAddressText2 = new SimpleStringProperty("");
-    private SimpleStringProperty customerPhoneNumber = new SimpleStringProperty("");
-    private SimpleStringProperty customerPostalCode = new SimpleStringProperty("");
-    private SimpleIntegerProperty customerCityID = new SimpleIntegerProperty(0);
-    private SimpleStringProperty customerCity = new SimpleStringProperty("");
-    private SimpleIntegerProperty customerCountryID = new SimpleIntegerProperty(0);
-    private SimpleStringProperty customerCountry = new SimpleStringProperty("");
+    SimpleIntegerProperty customerID = new SimpleIntegerProperty(0);
+    SimpleStringProperty customerName = new SimpleStringProperty("");
+    SimpleIntegerProperty customerAddressID = new SimpleIntegerProperty(0);
+    Boolean customerActive = true;
+    SimpleStringProperty customerAddressText = new SimpleStringProperty("");
+    SimpleStringProperty customerAddressText2 = new SimpleStringProperty("");
+    SimpleStringProperty customerPhoneNumber = new SimpleStringProperty("");
+    SimpleStringProperty customerPostalCode = new SimpleStringProperty("");
+    SimpleIntegerProperty customerCityID = new SimpleIntegerProperty(0);
+    SimpleStringProperty customerCity = new SimpleStringProperty("");
+    SimpleIntegerProperty customerCountryID = new SimpleIntegerProperty(0);
+    SimpleStringProperty customerCountry = new SimpleStringProperty("");
     
-    public customer(int customerID, String customerName, int customerAddressID,
+    public customer(int customerID, String customerName, int customerAddressID, Boolean customerActive,
             String customerAddressText, String customerAddressText2, String customerPhoneNumber,
             String customerPostalCode, int customerCityID, String customerCity, 
             int customerCountryID, String customerCountry) {
         setCustomerID(customerID);
         setCustomerName(customerName);
         setCustomerAddressID(customerAddressID);
+        setCustomerActive(customerActive);
         setCustomerAddressText(customerAddressText);
         setCustomerAddressText2(customerAddressText2);
         setCustomerPhoneNumber(customerPhoneNumber);
@@ -44,6 +46,10 @@ public class customer {
         setCustomerCountryID(customerCountryID);
         setCustomerCountry(customerCountry);
         
+    }
+
+    customer() {
+
     }
             
     public int getCustomerID(){
@@ -69,6 +75,14 @@ public class customer {
     public void setCustomerAddressID(int CustomerAddressID) {
         customerAddressID.set(CustomerAddressID);
     }      
+    
+    public Boolean getCustomerActive(){
+        return customerActive;
+    }
+    
+    public void setCustomerActive(Boolean custActive) {
+        customerActive = custActive;
+    }    
     
     public String getCustomerAddressText(){
         return customerAddressText.get();

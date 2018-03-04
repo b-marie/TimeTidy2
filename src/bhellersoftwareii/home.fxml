@@ -47,37 +47,37 @@
                            <children>
                               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Sunday" textAlignment="CENTER">
                                  <font>
-                                    <Font name="Calibri Light" size="14.0" />
+                                    <Font name="Calibri Bold" size="14.0" />
                                  </font>
                               </Label>
                               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Monday" textAlignment="CENTER" GridPane.columnIndex="1">
                                  <font>
-                                    <Font name="Calibri Light" size="14.0" />
+                                    <Font name="Calibri Bold" size="14.0" />
                                  </font>
                               </Label>
                               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Tuesday" textAlignment="CENTER" GridPane.columnIndex="2">
                                  <font>
-                                    <Font name="Calibri Light" size="14.0" />
+                                    <Font name="Calibri Bold" size="14.0" />
                                  </font>
                               </Label>
                               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Wednesday" textAlignment="CENTER" GridPane.columnIndex="3">
                                  <font>
-                                    <Font name="Calibri Light" size="14.0" />
+                                    <Font name="Calibri Bold" size="14.0" />
                                  </font>
                               </Label>
                               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Thursday" textAlignment="CENTER" GridPane.columnIndex="4">
                                  <font>
-                                    <Font name="Calibri Light" size="14.0" />
+                                    <Font name="Calibri Bold" size="14.0" />
                                  </font>
                               </Label>
                               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Saturday" textAlignment="CENTER" GridPane.columnIndex="6">
                                  <font>
-                                    <Font name="Calibri Light" size="14.0" />
+                                    <Font name="Calibri Bold" size="14.0" />
                                  </font>
                               </Label>
                               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="72.0" text="Friday" textAlignment="CENTER" GridPane.columnIndex="5">
                                  <font>
-                                    <Font name="Calibri Light" size="14.0" />
+                                    <Font name="Calibri Bold" size="14.0" />
                                  </font>
                               </Label>
                            </children>
@@ -130,8 +130,8 @@
                           <columns>
                             <TableColumn fx:id="CustomerNameCol" prefWidth="118.0" text="Name" />
                             <TableColumn fx:id="CustomerAddressCol" prefWidth="122.0" text="Address" />
-                              <TableColumn fx:id="CustomerAddress2Col" prefWidth="126.0" text="Address 2" />
-                              <TableColumn fx:id="CustomerCityCol" prefWidth="75.0" text="City" />
+                              <TableColumn fx:id="CustomerAddress2Col" prefWidth="85.0" text="Address 2" />
+                              <TableColumn fx:id="CustomerCityCol" prefWidth="116.0" text="City" />
                               <TableColumn fx:id="CustomerCountryCol" prefWidth="92.0" text="Country" />
                               <TableColumn fx:id="CustomerPhoneNumberCol" maxWidth="161.0" minWidth="0.0" prefWidth="110.0" text="Phone Number" />
                           </columns>

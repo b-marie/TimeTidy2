@@ -43,6 +43,8 @@ public class LoginController implements Initializable {
 
     @FXML
     private Button frenchButton;
+    
+    static String currentUser = "";
 
     @FXML
     void frenchButtonPressed(ActionEvent event) {
@@ -62,14 +64,20 @@ public class LoginController implements Initializable {
                 PreparedStatement pst = conn.prepareStatement("Select * from user where userName=? and password=?");
                 pst.setString(1, username);
                 pst.setString(2, password);
+                currentUser = username;
                 ResultSet rs = pst.executeQuery();
                 
                 if(rs.next()) {
+                    pst.close();
+                    conn.close();
                     return true;
                 } else {
+                    pst.close();
+                    conn.close();
                     return false;
             }
             } else {
+                conn.close();
                 System.out.println("Something didn't work");
                 return false;
             }

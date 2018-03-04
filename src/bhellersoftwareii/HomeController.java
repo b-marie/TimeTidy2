@@ -10,6 +10,10 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -18,6 +22,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.scene.layout.AnchorPane;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,6 +44,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -53,12 +62,13 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
+        
         //Set Labels
         TimeZoneLabel.setText(calendar.getTimeZone());
         CalendarMonthYearText.setText(calendar.getMonth() + " " + calendar.getYr());
         CalendarDateLabel.setText(calendar.getMonth() + " " + calendar.getCurrentDay() + ", " + calendar.getYr());
         CalendarDatePicker.setValue(calendar.today);
+        NameLabel.setText(currentUser);
         
         
         //Set calendar
@@ -72,10 +82,33 @@ public class HomeController implements Initializable {
             }
         }
         calendar.populateCalendar(currentYearMonth);
+        
+        
+        //Set customer data table
+        CustomerNameCol.setCellValueFactory(new PropertyValueFactory<customer, SimpleStringProperty>("customerName"));
+        CustomerAddressCol.setCellValueFactory(new PropertyValueFactory<customer, SimpleStringProperty>("customerAddressText"));
+        CustomerAddress2Col.setCellValueFactory(new PropertyValueFactory<customer, SimpleStringProperty>("customerAddressText2"));
+        CustomerCityCol.setCellValueFactory(new PropertyValueFactory<customer, SimpleStringProperty>("customerCity"));
+        CustomerCountryCol.setCellValueFactory(new PropertyValueFactory<customer, SimpleStringProperty>("customerCountry"));
+        CustomerPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<customer, SimpleStringProperty>("customerPhoneNumber"));
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String sqlurl = "jdbc:mysql://52.206.157.109/U04vDR";
+                    String user = "U04vDR";
+                    String pass = "53688357932";
+                    Connection conn = DriverManager.getConnection(sqlurl, user, pass);
+                    if(conn != null) {
+                    }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } 
+
+        buildCustomerDataTable();
     }    
 
     static ArrayList<CalendarDay> allCalendarDays = new ArrayList<>(35);
     
+    static String currentUser = LoginController.currentUser;
     
     @FXML
     private Tab CalendarTab;
@@ -126,25 +159,25 @@ public class HomeController implements Initializable {
     private Tab CustomerRecordsTab;
 
     @FXML
-    private TableView<?> CustomerRecordsTable;
+    public TableView<customer> CustomerRecordsTable;
 
     @FXML
-    private TableColumn<?, ?> CustomerNameCol;
+    private TableColumn<customer, SimpleStringProperty> CustomerNameCol;
 
     @FXML
-    private TableColumn<?, ?> CustomerAddressCol;
+    private TableColumn<customer, SimpleStringProperty> CustomerAddressCol;
     
     @FXML
-    private TableColumn<?, ?> CustomerAddress2Col;
+    private TableColumn<customer, SimpleStringProperty> CustomerAddress2Col;
     
     @FXML
-    private TableColumn<?, ?> CustomerCityCol;
+    private TableColumn<customer, SimpleStringProperty> CustomerCityCol;
     
     @FXML
-    private TableColumn<?, ?> CustomerCountryCol;
+    private TableColumn<customer, SimpleStringProperty> CustomerCountryCol;
 
     @FXML
-    private TableColumn<?, ?> CustomerPhoneNumberCol;
+    private TableColumn<customer, SimpleStringProperty> CustomerPhoneNumberCol;
 
     @FXML
     private Button CustomerRecordsDeleteButton;
@@ -181,14 +214,49 @@ public class HomeController implements Initializable {
     
     @FXML
     private Hyperlink CustIDLink;
-
     
+    public static ObservableList<customer> data;
+    public static ObservableList<customer> data2;
+    static customer selectedCustomer = new customer();
     
-    
-    @FXML
-    void CustIDLinkPressed(ActionEvent event) {
-        System.out.println("Customer ID Link Pressed - Add Search Functoin to Find Customer");
+    public void buildCustomerDataTable(){
+        data = FXCollections.observableArrayList();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String sqlurl = "jdbc:mysql://52.206.157.109/U04vDR";
+                    String user = "U04vDR";
+                    String pass = "53688357932";
+                    Connection con = DriverManager.getConnection(sqlurl, user, pass);
+                    if(con != null) {
+                        String SQL = "SELECT customer.customerName, address.address, address.address2, city.city, country.country, address.phone FROM U04vDR.customer JOIN address on customer.addressId = address.addressId JOIN city on address.cityId = city.cityId JOIN country on city.countryId = country.countryId";
+                        ResultSet rs = con.createStatement().executeQuery(SQL);
+                        System.out.println(rs);
+                        while(rs.next()) {
+                            customer cm = new customer();
+                            cm.customerName.set(rs.getString("customerName"));
+                            cm.customerAddressText.set(rs.getString("address"));
+                            cm.customerAddressText2.set(rs.getString("address2"));
+                            cm.customerCity.set(rs.getString("city"));
+                            cm.customerCountry.set(rs.getString("country"));
+                            cm.customerPhoneNumber.set(rs.getString("phone"));
+                            data.add(cm);
+                            System.out.println(cm);
+                        }
+                        rs.close();
+                    }
+                    CustomerRecordsTable.setItems(data);
+                    
+                    con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+
+//    @FXML
+//    void CustIDLinkPressed(ActionEvent event) {
+//        System.out.println("Customer ID Link Pressed - Add Search Function to Find Customer");
+//    }
     
     @FXML
     void AppointmentTypeToggleButtonSelected(ActionEvent event) {
@@ -234,8 +302,13 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void CustomerRecordsAddButtonSelected(ActionEvent event) {
+    void CustomerRecordsAddButtonSelected(ActionEvent event) throws IOException {
         System.out.println("Customer Records Add Button Selected!");
+        Parent newCust = FXMLLoader.load(getClass().getResource("AddCustomer.fxml"));
+        Scene newCustScene = new Scene(newCust);
+        Stage homeStage = new Stage();
+        homeStage.setScene(newCustScene);
+        homeStage.show();
     }
 
     @FXML
@@ -244,8 +317,15 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void CustomerRecordsModifyButtonSelected(ActionEvent event) {
+    void CustomerRecordsModifyButtonSelected(ActionEvent event) throws IOException {
         System.out.println("Customer Records Modify Button Selected!");
+        data2 = CustomerRecordsTable.getItems();
+        selectedCustomer = CustomerRecordsTable.getSelectionModel().getSelectedItem();
+        Parent modCust = FXMLLoader.load(getClass().getResource("ModifyCustomer.fxml"));
+        Scene modCustScene = new Scene(modCust);
+        Stage homeStage = new Stage();
+        homeStage.setScene(modCustScene);
+        homeStage.show();
     }
 
     @FXML
