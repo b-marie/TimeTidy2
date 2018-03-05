@@ -9,14 +9,20 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
@@ -29,16 +35,25 @@ public class AddAppointmentController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+//        NewApptCustIDEntry = new TextField();
+//        NewApptCustIDEntry.setText(ID);
     }    
+    
+//    static String ID = "0";
     
     @FXML
     private TextField NewApptApptIDEntry;
+    
+    @FXML
+    Label custIDLabel;
 
     @FXML
-    private TextField NewApptCustIDEntry;
+    TextField NewApptCustIDEntry;
 
     @FXML
     private TextField NewApptTitleTextEntry;
@@ -95,9 +110,19 @@ public class AddAppointmentController implements Initializable {
     }
     
     @FXML
-    void CustIDLinkPressed(ActionEvent event) {
+    void CustIDLinkPressed(ActionEvent event) throws IOException {
         System.out.println("Cust ID Link Pressed");
         //Open another window with a search/table of customers and allow someone to select customers
+        Parent newCustSearch = FXMLLoader.load(getClass().getResource("CustomerSearch.fxml"));
+        Scene newCustSearchScene = new Scene(newCustSearch);
+        Stage custSearchStage = new Stage();
+        custSearchStage.setScene(newCustSearchScene);
+        custSearchStage.show();
     }
+    
+//    public void setCustID(String custID) {
+//        NewApptCustIDEntry.setText(custID);
+//        System.out.println(NewApptCustIDEntry);
+//    }
 }
 

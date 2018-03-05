@@ -215,12 +215,11 @@ public class HomeController implements Initializable {
     @FXML
     private Hyperlink CustIDLink;
     
-    public static ObservableList<customer> data;
+    public static ObservableList<customer> data = FXCollections.observableArrayList();
     public static ObservableList<customer> data2;
     static customer selectedCustomer = new customer();
     
     public void buildCustomerDataTable(){
-        data = FXCollections.observableArrayList();
         try {
             Class.forName("com.mysql.jdbc.Driver");
             String sqlurl = "jdbc:mysql://52.206.157.109/U04vDR";
@@ -273,9 +272,9 @@ public class HomeController implements Initializable {
     void CalendarNewButtonPressed(ActionEvent event) throws IOException {
         Parent newAppt = FXMLLoader.load(getClass().getResource("AddAppointment.fxml"));
         Scene newApptScene = new Scene(newAppt);
-        Stage homeStage = new Stage();
-        homeStage.setScene(newApptScene);
-        homeStage.show();
+        Stage newApptStage = new Stage();
+        newApptStage.setScene(newApptScene);
+        newApptStage.show();
     }
 
     @FXML

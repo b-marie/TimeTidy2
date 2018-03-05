@@ -4,13 +4,13 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: CDC9C9;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="bhellersoftwareii.AddAppointmentController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: CDC9C9;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bhellersoftwareii.AddAppointmentController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="SNOW" height="375.0" layoutX="15.0" layoutY="13.0" stroke="BLACK" strokeType="INSIDE" width="573.0" />
       <Label alignment="CENTER" layoutX="164.0" layoutY="34.0" text="New Appointment" textAlignment="CENTER" textFill="#ff6519">
@@ -31,7 +31,6 @@
             <Font name="Calibri Light" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="NewApptDescTextEntry" layoutX="286.0" layoutY="120.0" prefHeight="118.0" prefWidth="255.0" />
       <Label layoutX="210.0" layoutY="171.0" text="Description">
          <font>
             <Font name="Calibri Light" size="14.0" />
@@ -80,5 +79,6 @@
             <Font name="Calibri Light" size="14.0" />
          </font>
       </Hyperlink>
+      <TextArea fx:id="NewApptDescTextEntry" layoutX="286.0" layoutY="126.0" prefHeight="108.0" prefWidth="255.0" />
    </children>
 </AnchorPane>
