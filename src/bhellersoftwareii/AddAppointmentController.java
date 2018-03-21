@@ -7,6 +7,11 @@ package bhellersoftwareii;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,6 +28,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 /**
@@ -41,7 +47,7 @@ public class AddAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
 //        NewApptCustIDEntry = new TextField();
-//        NewApptCustIDEntry.setText(ID);
+        NewApptCustIDEntry.setText(CustomerSearchController.custID);
     }    
     
 //    static String ID = "0";
@@ -53,13 +59,13 @@ public class AddAppointmentController implements Initializable {
     Label custIDLabel;
 
     @FXML
-    TextField NewApptCustIDEntry;
+    static TextField NewApptCustIDEntry;
 
     @FXML
     private TextField NewApptTitleTextEntry;
 
     @FXML
-    private TextField NewApptDescTextEntry;
+    private TextArea NewApptDescTextEntry;
 
     @FXML
     private TextField NewApptLocTextEntry;
@@ -107,6 +113,64 @@ public class AddAppointmentController implements Initializable {
     void NewApptSaveButtonPressed(ActionEvent event) {
         System.out.println("Save button pressed");
         //Save data from this form to database
+//        System.out.println("New customer save button pressed");
+//        //Collect New Customer information
+//        String custName = NewCustCustNameEntry.getText();
+//        String custAddress1 = NewCustAddressEntry.getText();
+//        String custAddress2 = NewCustAddress2Entry.getText();
+//        String custPhoneNum = NewCustPhoneNumberEntry.getText();
+//        String custZipCode = NewCustZipCodeEntry.getText();
+//        String custCity = NewCustCityEntry.getText();
+//        String custCountry = NewCustCountryEntry.getText();
+//        Boolean active = true;
+//        java.sql.Date today = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+//        String person = HomeController.currentUser;
+//
+//        //Save new customer information to the database
+//        if(addCustomer(custCountry, today, person, 
+//        custCity, custAddress1, custAddress2, custZipCode, 
+//        custPhoneNum, custName, active)) {
+//                //Close the current stage
+//                Stage stage = (Stage) NewCustSaveButton.getScene().getWindow();
+//                stage.close();
+//            } else {
+//                Alert invalidCredentialsAlert = new Alert(Alert.AlertType.WARNING);
+//                invalidCredentialsAlert.setTitle("Invalid Action");
+//                invalidCredentialsAlert.setHeaderText("There was a problem");
+//                invalidCredentialsAlert.setContentText("Customer information was not saved");
+//
+//                invalidCredentialsAlert.showAndWait();
+//            } 
+//           //Update the Customer Records Table
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            String sqlurl = "jdbc:mysql://52.206.157.109/U04vDR";
+//                    String user = "U04vDR";
+//                    String pass = "53688357932";
+//                    Connection conn = DriverManager.getConnection(sqlurl, user, pass);
+//                    if(conn != null) {
+//                        PreparedStatement SQL = conn.prepareStatement("SELECT customer.customerName, address.address, address.address2, city.city, country.country, address.phone FROM U04vDR.customer JOIN address on customer.addressId = address.addressId JOIN city on address.cityId = city.cityId JOIN country on city.countryId = country.countryId WHERE customer.customerName = ? ");
+//                        SQL.setString(1, custName);
+//                        ResultSet rs = SQL.executeQuery();
+//                        System.out.println(rs);
+//                        while(rs.next()) {
+//                            customer cm = new customer();
+//                            cm.customerName.set(rs.getString("customerName"));
+//                            cm.customerAddressText.set(rs.getString("address"));
+//                            cm.customerAddressText2.set(rs.getString("address2"));
+//                            cm.customerCity.set(rs.getString("city"));
+//                            cm.customerCountry.set(rs.getString("country"));
+//                            cm.customerPhoneNumber.set(rs.getString("phone"));
+//                            HomeController.data.add(cm);
+//                            System.out.println(cm);
+//                        }
+//                    }
+//                    conn.close();
+////                    HomeController.CustomerRecordsTable.setItems(HomeController.data);
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
     
     @FXML
@@ -120,9 +184,9 @@ public class AddAppointmentController implements Initializable {
         custSearchStage.show();
     }
     
-//    public void setCustID(String custID) {
-//        NewApptCustIDEntry.setText(custID);
-//        System.out.println(NewApptCustIDEntry);
-//    }
+    public static void setCustID(String custID) {
+        NewApptCustIDEntry.setText(custID);
+        System.out.println(NewApptCustIDEntry);
+    }
 }
 
