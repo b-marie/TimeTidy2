@@ -97,36 +97,108 @@ public class calendar {
         return calendarDate;
     }
     
-    public static void populateCalendar(YearMonth yearMonth) {
-        //Get the date we want to start with on the calendar
-        LocalDate calendarDate = LocalDate.of(getYr(), getMonthVal(), 1);
-        //Dial back the day until it is SUNDAY
-        while(!calendarDate.getDayOfWeek().toString().equals("SUNDAY")) {
-            calendarDate = calendarDate.minusDays(1);
-        }
-        for(CalendarDay cd : HomeController.allCalendarDays) {
-            if(cd.getChildren().size() != 0) {
-                cd.getChildren().remove(0);
-            }
-            Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
-            cd.setDate(calendarDate);
-            cd.setTopAnchor(txt, 5.0);
-            cd.setLeftAnchor(txt, 5.0);
-            cd.getChildren().add(txt);
-            calendarDate = calendarDate.plusDays(1);
-        }
-    }
+//    public static void populateWeekCalendar(YearMonth yearMonth) {
+//        //Get the date we want to start with on the calendar
+//        LocalDate calendarDate = today;
+//        //Dial back the day until it is SUNDAY
+//        while(!calendarDate.getDayOfWeek().toString().equals("SUNDAY")) {
+//            calendarDate = calendarDate.minusDays(1);
+//        }
+//        for(CalendarDay cd : HomeController.calendarWeek) {
+//            if(cd.getChildren().size() != 0) {
+//                cd.getChildren().remove(0);
+//            }
+//            Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
+//            cd.setDate(calendarDate);
+//            cd.setTopAnchor(txt, 5.0);
+//            cd.setLeftAnchor(txt, 5.0);
+//            cd.getChildren().add(txt);
+//            calendarDate = calendarDate.plusDays(1);
+//        }
+//    }
     
-    static void previousMonth() {
-        System.out.println("Go to the last month!");
-        currentYearMonth = currentYearMonth.minusMonths(1);
-        populateCalendar(currentYearMonth);
-    }
+//    static void previousMonth(LocalDate cal) {
+//        System.out.println("Go to the last month!");
+//        LocalDate caldate = cal.minusMonths(1);
+//        HomeController.currentCal = caldate;
+//        //Dial back the day until it is SUNDAY
+//        while(!caldate.getDayOfWeek().toString().equals("SUNDAY")) {
+//            caldate = caldate.minusDays(1);
+//        }
+//        for(CalendarDay cd : CalendarMonth.allCalendarDays) {
+//            if(cd.getChildren().size() != 0) {
+//                cd.getChildren().remove(0);
+//            }
+//            Text txt = new Text(String.valueOf(caldate.getDayOfMonth()));
+//            cd.setDate(caldate);
+//            cd.setTopAnchor(txt, 5.0);
+//            cd.setLeftAnchor(txt, 5.0);
+//            cd.getChildren().add(txt);
+//            caldate = caldate.plusDays(1);
+//        }
+//        
+//    }
     
-    static void nextMonth() {
-        System.out.println("Go to the next month!");
-        currentYearMonth = currentYearMonth.plusMonths(1);
-        populateCalendar(currentYearMonth);
-    }
+//    static void nextMonth(LocalDate cal) {
+//        System.out.println("Go to the next month!");
+//        LocalDate caldate = cal.plusMonths(1);
+//        HomeController.currentCal = caldate;
+//        //Dial back the day until it is SUNDAY
+//        while(!caldate.getDayOfWeek().toString().equals("SUNDAY")) {
+//            caldate = caldate.minusDays(1);
+//        }
+//        for(CalendarDay cd : CalendarMonth.allCalendarDays) {
+//            if(cd.getChildren().size() != 0) {
+//                cd.getChildren().remove(0);
+//            }
+//            Text txt = new Text(String.valueOf(caldate.getDayOfMonth()));
+//            cd.setDate(caldate);
+//            cd.setTopAnchor(txt, 5.0);
+//            cd.setLeftAnchor(txt, 5.0);
+//            cd.getChildren().add(txt);
+//            caldate = caldate.plusDays(1);
+//        }
+//    }
+//    
+//    static void previousWeek(LocalDate cal) {
+//        LocalDate caldate = cal.minusDays(7);
+//        HomeController.currentWeek = caldate;
+//        //Dial back the day until it is SUNDAY
+//        while(!caldate.getDayOfWeek().toString().equals("SUNDAY")) {
+//            caldate = caldate.minusDays(1);
+//        }
+//        for(CalendarDay cd : HomeController.calendarWeek) {
+//            if(cd.getChildren().size() != 0) {
+//                cd.getChildren().remove(0);
+//            }
+//            Text txt = new Text(String.valueOf(caldate.getDayOfMonth()));
+//            cd.setDate(caldate);
+//            cd.setTopAnchor(txt, 5.0);
+//            cd.setLeftAnchor(txt, 5.0);
+//            cd.getChildren().add(txt);
+//            caldate = caldate.plusDays(1);
+//        }
+//        
+//    }
+    
+//    static void nextWeek(LocalDate cal) {
+////        LocalDate caldate = cal.plusDays(7);
+////        HomeController.currentWeek = caldate;
+////        //Dial back the day until it is SUNDAY
+////        while(!caldate.getDayOfWeek().toString().equals("SUNDAY")) {
+////            caldate = caldate.minusDays(1);
+////        }
+////        for(CalendarDay cd : HomeController.calendarWeek) {
+////            if(cd.getChildren().size() != 0) {
+////                cd.getChildren().remove(0);
+////            }
+////            Text txt = new Text(String.valueOf(caldate.getDayOfMonth()));
+////            cd.setDate(caldate);
+////            cd.setTopAnchor(txt, 5.0);
+////            cd.setLeftAnchor(txt, 5.0);
+////            cd.getChildren().add(txt);
+////            caldate = caldate.plusDays(1);
+////        }
+//    }
     
 }

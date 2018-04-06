@@ -6,6 +6,8 @@
 package bhellersoftwareii;
 
 import static bhellersoftwareii.calendar.currentYearMonth;
+import static bhellersoftwareii.calendar.getMonthVal;
+import static bhellersoftwareii.calendar.getYr;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -14,12 +16,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -55,6 +62,10 @@ import javafx.stage.Stage;
  * @author Britt
  */
 public class HomeController implements Initializable {
+    
+    CalendarMonth thisMonth = new CalendarMonth();
+    CalendarWeek thisWeek = new CalendarWeek();
+    LocalDateTime referenceDate;
 
     /**
      * Initializes the controller class.
@@ -63,26 +74,21 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         
+        //Generate reference date from which month and week calendars can be built on
+        referenceDate = LocalDateTime.now();
+        
+        
         //Set Labels
         TimeZoneLabel.setText(calendar.getTimeZone());
-        CalendarMonthYearText.setText(calendar.getMonth() + " " + calendar.getYr());
-        CalendarDateLabel.setText(calendar.getMonth() + " " + calendar.getCurrentDay() + ", " + calendar.getYr());
-        CalendarDatePicker.setValue(calendar.today);
+        CalendarMonthYearText.setText(referenceDate.getMonth() + " " + referenceDate.getYear());
+//        CalendarDateLabel.setText(referenceDate.getMonth() + " " + referenceDate.getDayOfMonth() + ", " + referenceDate.getYear());
+//        CalendarDatePicker.setValue(referenceDate.toLocalDate());
         NameLabel.setText(currentUser);
         
-        
-        //Set calendar
-        //Rows and columns for calendar grid pane
-        for(int i = 1; i < 6; i++) {
-            for(int j = 0; j < 7; j++) {
-                CalendarDay cd = new CalendarDay();
-                cd.setPrefSize(200, 200);
-                CalendarMonthGrid.add(cd, j, i);
-                allCalendarDays.add(cd);
-            }
-        }
-        calendar.populateCalendar(currentYearMonth);
-        
+        //Initialize month calendar based on reference day
+        thisMonth.setCalendarMonth(CalendarMonthGrid, referenceDate);
+        thisWeek.setCalendarWeek(WeekViewGrid, referenceDate);
+        thisMonth.addMonthAppointments(CalendarMonthGrid, referenceDate);
         
         //Set customer data table
         CustomerNameCol.setCellValueFactory(new PropertyValueFactory<customer, SimpleStringProperty>("customerName"));
@@ -91,46 +97,70 @@ public class HomeController implements Initializable {
         CustomerCityCol.setCellValueFactory(new PropertyValueFactory<customer, SimpleStringProperty>("customerCity"));
         CustomerCountryCol.setCellValueFactory(new PropertyValueFactory<customer, SimpleStringProperty>("customerCountry"));
         CustomerPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<customer, SimpleStringProperty>("customerPhoneNumber"));
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String sqlurl = "jdbc:mysql://52.206.157.109/U04vDR";
-                    String user = "U04vDR";
-                    String pass = "53688357932";
-                    Connection conn = DriverManager.getConnection(sqlurl, user, pass);
-                    if(conn != null) {
-                    }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } 
+
 
         buildCustomerDataTable();
+        
+        //Initialize Day View Table
+        LocalDate todaysDate = LocalDate.now();
+        LocalDate startOfWeek = todaysDate.minusDays(todaysDate.getDayOfWeek().getValue() - 1);
+        LocalDate endOfWeek = startOfWeek.plusDays(6);
+        
+//        CalendarDayTableTimeCol.setCellValueFactory(start -> {
+//            SimpleStringProperty startProperty = new SimpleStringProperty();
+//            DateFormat timeFormat = new SimpleDateFormat("H:mm");
+//            startProperty.setValue(timeFormat.format(start.getValue()));
+//            return startProperty;
+//        });
+//        CalendarDayTableAppointmentCol.setCellValueFactory(new PropertyValueFactory<appointment, SimpleStringProperty>("appointmentTitle"));
+        
+//        for(LocalDate date = startOfWeek; !date.isAfter(endOfWeek); date = date.plusDays(1)){
+//            int slotIndex = 1;
+//            
+//            for(LocalDateTime startTime = date.atTime(firstSlotStart); !startTime.isAfter(date.atTime(lastSlotStart)); startTime = startTime.plus(slotLength)) {
+//                TimeSlot timeSlot = new TimeSlot(startTime, slotLength);
+//                timeSlots.add(timeSlot);
+//                
+////                registerDragHandlers(timeSlot, mouseAnchor);
+//                
+//////                CalendarDayTable.setItems(timeSlots);
+////            }
+//        }
     }    
-
-    static ArrayList<CalendarDay> allCalendarDays = new ArrayList<>(35);
     
+    //Variables
     static String currentUser = LoginController.currentUser;
+    public static LocalDate currentCal;
+    public static LocalDate currentWeek;
+//    LocalTime firstSlotStart = LocalTime.of(0,0);
+//    Duration slotLength = Duration.ofMinutes(15);
+//    LocalTime lastSlotStart = LocalTime.of(23, 59);
+//    ObservableList<TimeSlot> timeSlots = FXCollections.observableArrayList();
     
     @FXML
     private Tab CalendarTab;
 
     @FXML
-    private GridPane CalendarMonthGrid;
+    GridPane CalendarMonthGrid = new GridPane();
+
+//    @FXML
+//    private TableView<TimeSlot> CalendarDayTable;
+//
+//    @FXML
+//    private TableColumn<TimeSlot, LocalDateTime> CalendarDayTableTimeCol;
+//
+//    @FXML
+//    private TableColumn<?, ?> CalendarDayTableAppointmentCol;
 
     @FXML
-    private TableView<?> CalendarDayTable;
-
-    @FXML
-    private TableColumn<?, ?> CalendarDayTableTimeCol;
-
-    @FXML
-    private TableColumn<?, ?> CalendarDayTableAppointmentCol;
-
-    @FXML
-    private Label CalendarMonthYearText;
-
-    @FXML
-    private Label CalendarDateLabel;
+    Label CalendarMonthYearText;
     
+    @FXML
+    GridPane WeekViewGrid = new GridPane();
+
+//    @FXML
+//     Label CalendarDateLabel;
+//    
     @FXML
     private Label TimeZoneLabel;
 
@@ -153,7 +183,7 @@ public class HomeController implements Initializable {
     private Button ForwardButton;
 
     @FXML
-    private Label CalendarMonthViewText;
+    private static Label CalendarMonthViewText;
 
     @FXML
     private Tab CustomerRecordsTab;
@@ -207,9 +237,6 @@ public class HomeController implements Initializable {
     private RadioButton CustomReportToggleButton;
     
     @FXML
-    private TableView<?> WeekViewTable;
-    
-    @FXML
     private Button MonthViewButton;
     
     @FXML
@@ -251,30 +278,31 @@ public class HomeController implements Initializable {
         }
     }
 
-
-//    @FXML
-//    void CustIDLinkPressed(ActionEvent event) {
-//        System.out.println("Customer ID Link Pressed - Add Search Function to Find Customer");
-//    }
-    
     @FXML
     void AppointmentTypeToggleButtonSelected(ActionEvent event) {
         System.out.println("Something happened!");
     }
 
-    @FXML
-    void CalendarDatePickerSelected(ActionEvent event) {
-        System.out.println("Something happened!");
-    }
+//    @FXML
+//    void CalendarDatePickerSelected(ActionEvent event) {
+//        LocalDate pickerDate = CalendarDatePicker.getValue();
+//        System.out.println(pickerDate);
+//        CalendarDateLabel.setText(pickerDate.getMonth() + " " + pickerDate.getDayOfMonth() + ", " + pickerDate.getYear());
+//    }
 
 
     @FXML
     void CalendarNewButtonPressed(ActionEvent event) throws IOException {
-        Parent newAppt = FXMLLoader.load(getClass().getResource("AddAppointment.fxml"));
-        Scene newApptScene = new Scene(newAppt);
-        Stage newApptStage = new Stage();
-        newApptStage.setScene(newApptScene);
-        newApptStage.show();
+        try{
+            Parent newAppt = FXMLLoader.load(getClass().getResource("CustomerSearch.fxml"));
+            Scene newApptScene = new Scene(newAppt);
+            Stage newApptStage = new Stage();
+            newApptStage.setScene(newApptScene);
+            newApptStage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        
     }
 
     @FXML
@@ -284,15 +312,58 @@ public class HomeController implements Initializable {
     
     @FXML
     void BackwardButtonPressed(ActionEvent event) {
-        calendar.previousMonth();
-        CalendarMonthYearText.setText(calendar.getMonth() + " " + calendar.getYr());
-        CalendarDateLabel.setText(calendar.getMonth() + " " + calendar.getCurrentDay() + ", " + calendar.getYr());
-        CalendarDatePicker.setValue(calendar.today);
+        if(CalendarMonthGrid.isVisible()) {
+            System.out.println("Go to the last Month!");
+            try{
+                referenceDate = referenceDate.minusMonths(1);
+                CalendarMonth.setCalendarMonth(CalendarMonthGrid, referenceDate);
+                CalendarMonthYearText.setText(referenceDate.getMonth() + " " + referenceDate.getYear());
+                CalendarMonth.addMonthAppointments(CalendarMonthGrid, referenceDate);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+        } else {
+            System.out.println("Go to the last week!");
+            try{
+                referenceDate = referenceDate.minusDays(7);
+                CalendarWeek.setCalendarWeek(WeekViewGrid, referenceDate);
+                CalendarMonthYearText.setText(referenceDate.getMonth() + " " + referenceDate.getYear());
+                int numDays = -7;
+                CalendarWeek.addWeekAppointment(WeekViewGrid, referenceDate, numDays);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
     }
     
     @FXML
     void ForwardButtonPressed(ActionEvent event) {
-        calendar.nextMonth();
+        if(CalendarMonthGrid.isVisible()){
+            System.out.println("Go to the next Month!");
+            try{
+                referenceDate = referenceDate.plusMonths(1);
+                CalendarMonth.setCalendarMonth(CalendarMonthGrid, referenceDate);
+                CalendarMonthYearText.setText(referenceDate.getMonth() + " " + referenceDate.getYear());
+                CalendarMonth.addMonthAppointments(CalendarMonthGrid, referenceDate);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Go to the next week!");
+            try{
+                referenceDate = referenceDate.plusDays(7);
+                CalendarWeek.setCalendarWeek(WeekViewGrid, referenceDate);
+                CalendarMonthYearText.setText(referenceDate.getMonth() + " " + referenceDate.getYear());
+                int numDays = 7;
+                CalendarWeek.addWeekAppointment(WeekViewGrid, referenceDate, numDays);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        
     }
 
     @FXML
@@ -335,20 +406,26 @@ public class HomeController implements Initializable {
     @FXML
     void WeekViewButtonPressed(ActionEvent event) {
         System.out.println("Week view button pressed!");
-        WeekViewTable.setVisible(true);
+        WeekViewGrid.setVisible(true);
         WeekViewButton.setVisible(false);
         MonthViewButton.setVisible(true);
         CalendarMonthGrid.setVisible(false);
+        CalendarWeek.setCalendarWeek(WeekViewGrid, referenceDate);
+        int numDays = 7;
+        CalendarWeek.addWeekAppointment(WeekViewGrid, referenceDate, numDays);
     }
     
     @FXML
     void MonthViewButtonPressed(ActionEvent event) {
         System.out.println("Month view button pressed!");
-        WeekViewTable.setVisible(false);
+        WeekViewGrid.setVisible(false);
         WeekViewButton.setVisible(true);
         MonthViewButton.setVisible(false);
         CalendarMonthGrid.setVisible(true);
+        CalendarMonth.setCalendarMonth(CalendarMonthGrid, referenceDate);
+        CalendarMonth.addMonthAppointments(CalendarMonthGrid, referenceDate);
     }
+    
 
     
 }

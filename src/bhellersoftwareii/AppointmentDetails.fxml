@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: CDC9C9;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="bhellersoftwareii.AppointmentDetailsController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="SNOW" height="376.0" layoutX="13.0" layoutY="12.0" stroke="BLACK" strokeType="INSIDE" width="575.0" />
+      <Label layoutX="196.0" layoutY="34.0" prefHeight="28.0" prefWidth="208.0" text="Appointment Details" textFill="#00b2a4">
+         <font>
+            <Font name="Calibri Bold Italic" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="ApptDetailsCloseButton" layoutX="485.0" layoutY="327.0" mnemonicParsing="false" onAction="#ApptDetailsCloseButtonClicked" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Close" />
+      <Button fx:id="ApptDetailsEditButton" layoutX="404.0" layoutY="327.0" mnemonicParsing="false" onAction="#ApptDetailsEditButtonClicked" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Edit" />
+      <Button fx:id="ApptDetailsDeleteButton" layoutX="322.0" layoutY="327.0" mnemonicParsing="false" onAction="#ApptDetailsDeleteButtonClicked" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Delete" />
+      <Label layoutX="56.0" layoutY="107.0" text="Appointment Title">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="ApptTitleLabel" layoutX="242.0" layoutY="106.0" text="Appointment Title">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="56.0" layoutY="150.0" text="Appointment Description">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="ApptDescriptionLabel" layoutX="242.0" layoutY="133.0" prefHeight="49.0" prefWidth="208.0" text="Appointment Description" wrapText="true">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="56.0" layoutY="198.0" text="Appointment Location">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="ApptLocationLabel" layoutX="242.0" layoutY="197.0" text="Appointment Location">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="31.0" layoutY="74.0" text="ID">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="ApptIDLabel" layoutX="61.0" layoutY="74.0" text="Appointment ID">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="56.0" layoutY="235.0" text="Appointment Contact">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="ApptContactLabel" layoutX="244.0" layoutY="234.0" text="Appointment Contact">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="58.0" layoutY="273.0" text="Appointment URL">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="ApptURLLabel" layoutX="244.0" layoutY="273.0" text="Appointment URL">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="460.0" layoutY="106.0" text="Start Time">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="ApptStartTimeLabel" layoutX="460.0" layoutY="125.0" text="Start Time">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="463.0" layoutY="159.0" text="End Time">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="ApptEndTimeLabel" layoutX="463.0" layoutY="177.0" text="End Time">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="444.0" layoutY="226.0" text="Last Updated By">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="ApptLastUpdatedByLabel" layoutX="444.0" layoutY="244.0" text="Last Updated By">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -5,6 +5,7 @@
  */
 package bhellersoftwareii;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -57,6 +59,8 @@ public class CustomerSearchController implements Initializable {
 //            AddAppointmentController.setCustID(newValue));
 //        
     }    
+    
+    static String custID = "0";
     
     @FXML
     private TableView<customer> CustomerRecordsSearchTable;
@@ -202,11 +206,11 @@ public class CustomerSearchController implements Initializable {
     }
     
 //    public void updateIDInApptController(String value) {
-//        AddAppointmentController.NewApptCustIDEntry.setText(value);
+//        AddAppointmentController.setCustID(value);
 //    }
 
     @FXML
-    public void CustomerSearchSelectButtonClicked(ActionEvent event) {
+    public void CustomerSearchSelectButtonClicked(ActionEvent event) throws IOException {
         System.out.println("Customer Search Select Button was clicked!");
         selectCustomer = CustomerRecordsSearchTable.getSelectionModel().getSelectedItem();
         System.out.println(selectCustomer.getCustomerName());
@@ -233,11 +237,15 @@ public class CustomerSearchController implements Initializable {
         }
         //Bring customer ID back into the appointment box
         System.out.println(selectedCustomerID);
+        custID = Integer.toString(selectedCustomerID);
 //        setSelectedValue(Integer.toString(selectedCustomerID));
 //        AddAppointmentsController.ID = (Integer.toString(selectedCustomerID));
 //        AddAppointmentController.setCustID(AddAppointmentController.ID);
+        Parent newAppt = FXMLLoader.load(getClass().getResource("AddAppointment.fxml"));
+        Scene newApptScene = new Scene(newAppt);
         Stage stage = (Stage) CustomerSearchSelectButton.getScene().getWindow();
-        stage.close();
+        stage.setScene(newApptScene);
+        stage.show();
     }
     
 }

@@ -16,6 +16,8 @@ import javafx.scene.layout.AnchorPane;
 public class CalendarDay extends AnchorPane {
     
     private LocalDate date;
+    private int xVal;
+    private int yVal;
     
     /**
      * Create a anchor pane node. Date is not assigned in the constructor.
@@ -24,8 +26,7 @@ public class CalendarDay extends AnchorPane {
     
     public CalendarDay(Node... children) {
         super(children);
-        this.setOnMouseClicked(e -> System.out.println("This pane's data is " + date));
-//        this.setOnMouseClicked(e -> HomeController.CalendarDatePicker.setValue(date));
+        this.setOnMouseClicked(e -> System.out.println("This pane's data is " + date + " it's xValue is " + xVal + " and y value is " + yVal));
     }
     
     public LocalDate getDate() {
@@ -36,4 +37,18 @@ public class CalendarDay extends AnchorPane {
         this.date = date;
     }
     
+    public int getXVal() {
+        return xVal;
+    }
+    
+    public void setXVal(int xVal) {
+        this.xVal = xVal;
+    }
+    public int getYVal() {
+        return yVal;
+    }
+    
+    public void setYVal(int yVal) {
+        this.yVal = yVal;
+    }
 }
