@@ -11,9 +11,23 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -47,10 +61,11 @@ public class AddAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
 //        NewApptCustIDEntry = new TextField();
-        NewApptCustIDEntry.setText(CustomerSearchController.custID);
+        String customerID = CustomerSearchController.custID;
+        System.out.println("Customer ID is " + customerID);
+        NewApptCustIDEntry.setText(customerID);
     }    
     
-//    static String ID = "0";
     
     @FXML
     private TextField NewApptApptIDEntry;
@@ -59,7 +74,7 @@ public class AddAppointmentController implements Initializable {
     Label custIDLabel;
 
     @FXML
-    static TextField NewApptCustIDEntry;
+    TextField NewApptCustIDEntry;
 
     @FXML
     private TextField NewApptTitleTextEntry;
@@ -110,37 +125,38 @@ public class AddAppointmentController implements Initializable {
     }
 
     @FXML
-    void NewApptSaveButtonPressed(ActionEvent event) {
+    void NewApptSaveButtonPressed(ActionEvent event) throws ParseException, SQLException {
         System.out.println("Save button pressed");
         //Save data from this form to database
-//        System.out.println("New customer save button pressed");
-//        //Collect New Customer information
-//        String custName = NewCustCustNameEntry.getText();
-//        String custAddress1 = NewCustAddressEntry.getText();
-//        String custAddress2 = NewCustAddress2Entry.getText();
-//        String custPhoneNum = NewCustPhoneNumberEntry.getText();
-//        String custZipCode = NewCustZipCodeEntry.getText();
-//        String custCity = NewCustCityEntry.getText();
-//        String custCountry = NewCustCountryEntry.getText();
-//        Boolean active = true;
-//        java.sql.Date today = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-//        String person = HomeController.currentUser;
-//
-//        //Save new customer information to the database
-//        if(addCustomer(custCountry, today, person, 
-//        custCity, custAddress1, custAddress2, custZipCode, 
-//        custPhoneNum, custName, active)) {
-//                //Close the current stage
-//                Stage stage = (Stage) NewCustSaveButton.getScene().getWindow();
-//                stage.close();
-//            } else {
-//                Alert invalidCredentialsAlert = new Alert(Alert.AlertType.WARNING);
-//                invalidCredentialsAlert.setTitle("Invalid Action");
-//                invalidCredentialsAlert.setHeaderText("There was a problem");
-//                invalidCredentialsAlert.setContentText("Customer information was not saved");
-//
-//                invalidCredentialsAlert.showAndWait();
-//            } 
+        System.out.println("New appointment save button pressed");
+        //Collect New Appointment information
+        String customerID = NewApptCustIDEntry.getText();
+        int custId = Integer.parseInt(customerID);
+        String apptTitle = NewApptTitleTextEntry.getText();
+        String apptDesc = NewApptDescTextEntry.getText();
+        String apptLoc = NewApptLocTextEntry.getText();
+        String apptContact = NewApptContactTextEntry.getText();
+        String apptURL = NewApptURLTextEntry.getText();
+        LocalDateTime startingTime = getAppointmentStartTime();
+        java.sql.Timestamp startTime = java.sql.Timestamp.valueOf(startingTime);
+        LocalDateTime endingTime = getAppointmentEndTime();
+        java.sql.Timestamp endTime = java.sql.Timestamp.valueOf(endingTime);
+        java.sql.Date today = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        String person = HomeController.currentUser;
+
+        //Save new appointment to the database
+        if(addAppointment(custId, apptTitle, apptDesc, apptLoc, apptContact, apptURL, startTime, endTime, person, today)) {
+                //Close the current stage
+                Stage stage = (Stage) NewApptSaveButton.getScene().getWindow();
+                stage.close();
+            } else {
+                Alert invalidCredentialsAlert = new Alert(Alert.AlertType.WARNING);
+                invalidCredentialsAlert.setTitle("Invalid Action");
+                invalidCredentialsAlert.setHeaderText("There was a problem");
+                invalidCredentialsAlert.setContentText("Customer information was not saved");
+
+                invalidCredentialsAlert.showAndWait();
+            } 
 //           //Update the Customer Records Table
 //        try {
 //            Class.forName("com.mysql.jdbc.Driver");
@@ -173,20 +189,86 @@ public class AddAppointmentController implements Initializable {
 //        }
     }
     
-    @FXML
-    void CustIDLinkPressed(ActionEvent event) throws IOException {
-        System.out.println("Cust ID Link Pressed");
-        //Open another window with a search/table of customers and allow someone to select customers
-        Parent newCustSearch = FXMLLoader.load(getClass().getResource("CustomerSearch.fxml"));
-        Scene newCustSearchScene = new Scene(newCustSearch);
-        Stage custSearchStage = new Stage();
-        custSearchStage.setScene(newCustSearchScene);
-        custSearchStage.show();
+    
+        private boolean addAppointment(int customerID, String appointmentTitle, String appointmentDescription, 
+        String appointmentLocation, String appointmentContact, String appointmentURL, java.sql.Timestamp appointmentStartTime, java.sql.Timestamp appointmentEndTime, 
+        String person, java.sql.Date today) throws SQLException{
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+
+            String url = "jdbc:mysql://52.206.157.109/U04vDR";
+            String user = "U04vDR";
+            String pass = "53688357932";
+            Connection conn = DriverManager.getConnection(url, user, pass);
+
+            try(PreparedStatement stmt = conn.prepareStatement("INSERT INTO appointment (customerId, title, description, location, contact, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+                        stmt.setInt(1, customerID);
+                        stmt.setString(2, appointmentTitle);
+                        stmt.setString(3, appointmentDescription);
+                        stmt.setString(4, appointmentLocation);
+                        stmt.setString(5, appointmentContact);
+                        stmt.setString(6, appointmentURL);
+                        stmt.setTimestamp(7, appointmentStartTime);
+                        stmt.setTimestamp(8, appointmentEndTime);
+                        stmt.setDate(9, today);
+                        stmt.setString(10, person);
+                        stmt.setDate(11, today);
+                        stmt.setString(12, person);
+                        stmt.executeUpdate();
+                        ResultSet rs = stmt.getGeneratedKeys();
+                        if(rs.next()) {
+                            int appointmentID = rs.getInt(1);
+                            System.out.println("New appointment ID is: " + appointmentID);
+                        }
+            } catch(Exception e){
+                e.printStackTrace();
+                return false;
+
+            }
+        } catch(Exception e){
+                e.printStackTrace();
+                return false;
+
+            }
+        return true;
+        }
+    
+    LocalDateTime getAppointmentStartTime() throws ParseException {
+        LocalDate localDate = NewApptDatePicker.getValue();
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        Time start = new Time(formatter.parse(NewApptStartTimeEntry.getText()).getTime());
+        LocalTime startingTime = start.toLocalTime();
+        ZoneId tz = ZoneId.systemDefault();
+        TimeZone tzname = TimeZone.getDefault();
+        ZonedDateTime startTimeAndZone = ZonedDateTime.of(localDate, startingTime, tz);
+        ZonedDateTime startTimeAndZoneUTC = startTimeAndZone.withZoneSameInstant(ZoneOffset.UTC);
+        LocalDateTime startDateTimeLocal = LocalDateTime.ofInstant(startTimeAndZoneUTC.toInstant(), ZoneId.of("UTC"));
+//        java.util.Date startDateTime = java.util.Date.from(startDateTimeLocal.atZone(ZoneId.of("UTC")).toInstant());
+//        java.util.Date gmtStartTime = (startDateTime.getTime() - tzname.getRawOffset());
+//        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String startTime = sdf.format(startDateTime);
+        
+        return startDateTimeLocal;
     }
     
-    public static void setCustID(String custID) {
-        NewApptCustIDEntry.setText(custID);
-        System.out.println(NewApptCustIDEntry);
+    LocalDateTime getAppointmentEndTime() throws ParseException {
+        LocalDate localDate = NewApptDatePicker.getValue();
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        Time end = new Time(formatter.parse(NewApptEndTimeEntry.getText()).getTime());
+        LocalTime endingTime = end.toLocalTime();
+        ZoneId tz = ZoneId.systemDefault();
+        ZonedDateTime endTimeAndZone = ZonedDateTime.of(localDate, endingTime, tz);
+//        java.util.Date endDateTime = java.util.Date.from(endTimeAndZone.toInstant());
+//        ZonedDateTime endTimeAndZoneUTC = ZonedDateTime.of(localDate, endingTime, ZoneId.of("UTC"));
+        ZonedDateTime endTimeAndZoneUTC = endTimeAndZone.withZoneSameInstant(ZoneOffset.UTC);
+        LocalDateTime endDateTimeLocal = LocalDateTime.ofInstant(endTimeAndZoneUTC.toInstant(), ZoneId.of("UTC"));
+//        java.util.Date endDateTime = java.util.Date.from(endTimeAndZoneUTC.toInstant());
+//        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String endTime = sdf.format(endDateTime);
+        
+        
+        return endDateTimeLocal;
     }
+    
 }
 
