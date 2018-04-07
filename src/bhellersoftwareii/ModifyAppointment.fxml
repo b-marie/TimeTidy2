@@ -9,8 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: CDC9C9;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="bhellersoftwareii.ModifyAppointmentController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: CDC9C9;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bhellersoftwareii.ModifyAppointmentController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="SNOW" height="375.0" layoutX="15.0" layoutY="13.0" stroke="BLACK" strokeType="INSIDE" width="573.0" />
       <Label alignment="CENTER" layoutX="146.0" layoutY="30.0" text="Modify Appointment" textAlignment="CENTER" textFill="#ff6519">
@@ -18,16 +17,16 @@
             <Font name="Calibri Bold Italic" size="36.0" />
          </font>
       </Label>
-      <TextField fx:id="NewApptApptIDEntry" disable="true" layoutX="105.0" layoutY="103.0" prefHeight="26.0" prefWidth="101.0" />
-      <TextField fx:id="NewApptCustIDEntry" layoutX="105.0" layoutY="141.0" prefHeight="26.0" prefWidth="101.0" />
-      <DatePicker fx:id="NewApptDatePicker" layoutX="33.0" layoutY="212.0" />
-      <TextField fx:id="NewApptStartTimeEntry" layoutX="106.0" layoutY="254.0" prefHeight="26.0" prefWidth="101.0" promptText="24:00" />
-      <TextField fx:id="NewApptEndTimeEntry" layoutX="106.0" layoutY="287.0" prefHeight="26.0" prefWidth="101.0" promptText="24:00" />
-      <TextField fx:id="NewApptTitleTextEntry" layoutX="286.0" layoutY="90.0" prefHeight="26.0" prefWidth="255.0" />
-      <TextArea fx:id="NewApptDescTextEntry" layoutX="286.0" layoutY="126.0" prefHeight="108.0" prefWidth="255.0" />
-      <TextField fx:id="NewApptLocTextEntry" layoutX="286.0" layoutY="250.0" prefHeight="26.0" prefWidth="255.0" />
-      <TextField fx:id="NewApptContactTextEntry" layoutX="286.0" layoutY="283.0" prefHeight="26.0" prefWidth="255.0" />
-      <TextField fx:id="NewApptURLTextEntry" layoutX="286.0" layoutY="319.0" prefHeight="26.0" prefWidth="255.0" />
+      <TextField fx:id="ModApptApptIDEntry" disable="true" layoutX="105.0" layoutY="103.0" prefHeight="26.0" prefWidth="101.0" />
+      <TextField fx:id="ModApptCustIDEntry" layoutX="105.0" layoutY="141.0" prefHeight="26.0" prefWidth="101.0" />
+      <DatePicker fx:id="ModApptDatePicker" layoutX="33.0" layoutY="212.0" />
+      <TextField fx:id="ModApptStartTimeEntry" layoutX="106.0" layoutY="254.0" prefHeight="26.0" prefWidth="101.0" promptText="24:00" />
+      <TextField fx:id="ModApptEndTimeEntry" layoutX="106.0" layoutY="287.0" prefHeight="26.0" prefWidth="101.0" promptText="24:00" />
+      <TextField fx:id="ModApptTitleTextEntry" layoutX="286.0" layoutY="90.0" prefHeight="26.0" prefWidth="255.0" />
+      <TextArea fx:id="ModApptDescTextEntry" layoutX="286.0" layoutY="126.0" prefHeight="108.0" prefWidth="255.0" />
+      <TextField fx:id="ModApptLocTextEntry" layoutX="286.0" layoutY="250.0" prefHeight="26.0" prefWidth="255.0" />
+      <TextField fx:id="ModApptContactTextEntry" layoutX="286.0" layoutY="283.0" prefHeight="26.0" prefWidth="255.0" />
+      <TextField fx:id="ModApptURLTextEntry" layoutX="286.0" layoutY="319.0" prefHeight="26.0" prefWidth="255.0" />
       <Label layoutX="45.0" layoutY="107.0" text="Appt. ID">
          <font>
             <Font name="Calibri Light" size="14.0" />

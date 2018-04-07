@@ -23,7 +23,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -47,7 +49,7 @@ public class AppointmentDetailsController implements Initializable {
         // TODO
         System.out.println("Appointment ID for this button is " + clickedButton);
         ApptIDLabel.setText(clickedButton);
-        CustomerAppointment thisAppointment = new CustomerAppointment().getAppointmentDetails(clickedButton);
+        CustomerAppointment thisAppointment = CustomerAppointment.getAppointmentDetails(clickedButton);
         ApptTitleLabel.setText(thisAppointment.getAppointmentTitle());
         ApptDescriptionLabel.setText(thisAppointment.getAppointmentDescription());
         ApptLocationLabel.setText(thisAppointment.getAppointmentLocation());
@@ -103,11 +105,52 @@ public class AppointmentDetailsController implements Initializable {
     @FXML
     void ApptDetailsDeleteButtonClicked(ActionEvent event) {
         System.out.println("Appointment Delete button clicked");
+        //Confirm they want to cancel
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Please confirm");
+        confirm.setHeaderText("Confirm Delete Appointment");
+        confirm.setContentText("Are you sure you wish to delete this appointment?");
+
+        //Close the window
+        confirm.showAndWait().ifPresent((response -> {
+            int apptID = Integer.parseInt(ApptIDLabel.getText());
+            if (response == ButtonType.OK) {
+                try{
+                    Class.forName("com.mysql.jdbc.Driver");
+
+                    String url = "jdbc:mysql://52.206.157.109/U04vDR";
+                    String user = "U04vDR";
+                    String pass = "53688357932";
+                    Connection conn = DriverManager.getConnection(url, user, pass);
+                    if(conn != null) {
+                        System.out.println("Connected to the database!");
+                        //Query if country exists or not
+                        try{
+                            PreparedStatement apptUpdateQuery = conn.prepareStatement("DELETE FROM appointment WHERE appointmentId = ?");
+                            apptUpdateQuery.setInt(1, apptID);
+                            apptUpdateQuery.executeUpdate();
+                            System.out.println("Appointment at ID " + apptID + " has been deleted!");
+                            apptUpdateQuery.close();
+                        }catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                Stage stage = (Stage) ApptDetailsDeleteButton.getScene().getWindow();
+                stage.close();
+            }
+            }));
+        
     }
 
     @FXML
     void ApptDetailsEditButtonClicked(ActionEvent event) throws IOException {
         System.out.println("Appointment Edit button clicked");
+        HomeController.setClickedButtonID(ApptIDLabel.getText());
+        System.out.println("Clicked button ID in appointment details is " + HomeController.getClickedButtonID());
         Parent modAppt = FXMLLoader.load(getClass().getResource("ModifyAppointment.fxml"));
         Scene modApptScene = new Scene(modAppt);
         Stage modApptStage = new Stage();

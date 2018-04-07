@@ -5,8 +5,30 @@
  */
 package bhellersoftwareii;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,52 +48,63 @@ import javafx.stage.Stage;
 public class ModifyAppointmentController implements Initializable {
 
     String clickedButton = HomeController.getClickedButtonID();
+   CustomerAppointment thisAppointment = new CustomerAppointment().getAppointmentDetails(clickedButton);
+   String appointmentID = "";
+   String customerID = "";
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        NewApptApptIDEntry.setText(clickedButton);
-        CustomerAppointment thisAppointment = new CustomerAppointment().getAppointmentDetails(clickedButton);
-        NewApptTitleTextEntry.setText(thisAppointment.getAppointmentTitle());
-        NewApptDescTextEntry.setText(thisAppointment.getAppointmentDescription());
-        NewApptLocTextEntry.setText(thisAppointment.getAppointmentLocation());
-        NewApptContactTextEntry.setText(thisAppointment.getAppointmentContact());
-        NewApptURLTextEntry.setText(thisAppointment.getAppointmentURL());
-        NewApptStartTimeEntry.setText(thisAppointment.getStartTime());
-        NewApptEndTimeEntry.setText(thisAppointment.getEndTime());
+//        thisAppointment = CustomerAppointment.getAppointmentDetails(clickedButton);
+        appointmentID = Integer.toString(thisAppointment.getAppointmentID());
+        customerID = Integer.toString(thisAppointment.getAppointmentCustomerID());
+        System.out.println("Appointment ID is " + appointmentID + " and customer ID is " + customerID);
+        ModApptApptIDEntry.setText(appointmentID);
+        ModApptCustIDEntry.setText(customerID);
+        ModApptTitleTextEntry.setText(thisAppointment.getAppointmentTitle());
+        ModApptDescTextEntry.setText(thisAppointment.getAppointmentDescription());
+        ModApptLocTextEntry.setText(thisAppointment.getAppointmentLocation());
+        ModApptContactTextEntry.setText(thisAppointment.getAppointmentContact());
+        ModApptURLTextEntry.setText(thisAppointment.getAppointmentURL());
+        try {
+            ModApptDatePicker.setValue(getDateFromString(thisAppointment.getStartTime()));
+        } catch (ParseException ex) {
+            Logger.getLogger(ModifyAppointmentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ModApptStartTimeEntry.setText(getTimeFromString(thisAppointment.getStartTime()));
+        ModApptEndTimeEntry.setText(getTimeFromString(thisAppointment.getEndTime()));
     }    
     
     @FXML
-    private TextField NewApptApptIDEntry;
+    private TextField ModApptApptIDEntry;
 
     @FXML
-    private TextField NewApptCustIDEntry;
+    private TextField ModApptCustIDEntry;
 
     @FXML
-    private DatePicker NewApptDatePicker;
+    private DatePicker ModApptDatePicker;
 
     @FXML
-    private TextField NewApptStartTimeEntry;
+    private TextField ModApptStartTimeEntry;
 
     @FXML
-    private TextField NewApptEndTimeEntry;
+    private TextField ModApptEndTimeEntry;
 
     @FXML
-    private TextField NewApptTitleTextEntry;
+    private TextField ModApptTitleTextEntry;
 
     @FXML
-    private TextArea NewApptDescTextEntry;
+    private TextArea ModApptDescTextEntry;
 
     @FXML
-    private TextField NewApptLocTextEntry;
+    private TextField ModApptLocTextEntry;
 
     @FXML
-    private TextField NewApptContactTextEntry;
+    private TextField ModApptContactTextEntry;
 
     @FXML
-    private TextField NewApptURLTextEntry;
+    private TextField ModApptURLTextEntry;
 
     @FXML
     private Button ModifyApptCancelButton;
@@ -98,8 +131,118 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     @FXML
-    void ModifyApptSaveButtonPressed(ActionEvent event) {
+    public void ModifyApptSaveButtonPressed(ActionEvent event) throws ParseException, IOException {
+        //Collect Updated Appointment information
+        int appointmentID = Integer.parseInt(ModApptApptIDEntry.getText());
+        String custID = ModApptCustIDEntry.getText();
+        int customerID = Integer.parseInt(custID);
+        String apptTitle = ModApptTitleTextEntry.getText();
+        String apptDescription = ModApptDescTextEntry.getText();
+        String apptLocation = ModApptLocTextEntry.getText();
+        String apptContact = ModApptContactTextEntry.getText();
+        String apptURL = ModApptURLTextEntry.getText();
+        LocalDateTime startingTime = getAppointmentStartTime();
+        java.sql.Timestamp startTime = java.sql.Timestamp.valueOf(startingTime);
+        LocalDateTime endingTime = getAppointmentEndTime();
+        java.sql.Timestamp endTime = java.sql.Timestamp.valueOf(endingTime);
+        java.sql.Date today = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        String person = HomeController.currentUser;
 
+        //Save new customer information to the database
+        if(updateAppointment(appointmentID, customerID, startTime, endTime, apptTitle, apptDescription, apptLocation, 
+        apptContact, apptURL, today, person)) {
+                //Close the current stage
+                Stage stage = (Stage) ModifyApptSaveButton.getScene().getWindow();
+                stage.close();
+                
+            } else {
+                Alert invalidCredentialsAlert = new Alert(Alert.AlertType.WARNING);
+                invalidCredentialsAlert.setTitle("Invalid Action");
+                invalidCredentialsAlert.setHeaderText("There was a problem");
+                invalidCredentialsAlert.setContentText("Customer information was not saved");
+
+                invalidCredentialsAlert.showAndWait();
+            } 
+            
     }
     
+    private boolean updateAppointment(int apptID, int custID, java.sql.Timestamp startTime, java.sql.Timestamp endTime, String apptTitle, String apptDescription, String apptLocation, 
+        String apptContact, String apptURL, java.sql.Date date, String person){
+        try{
+                    Class.forName("com.mysql.jdbc.Driver");
+
+                    String url = "jdbc:mysql://52.206.157.109/U04vDR";
+                    String user = "U04vDR";
+                    String pass = "53688357932";
+                    Connection conn = DriverManager.getConnection(url, user, pass);
+                    if(conn != null) {
+                        System.out.println("Connected to the database!");
+                        //Query if country exists or not
+                        try{
+                            PreparedStatement apptUpdateQuery = conn.prepareStatement("UPDATE appointment SET customerId = ?, title = ?, description = ?, location = ?, contact = ?, url = ?, start = ?, end = ?, lastUpdate = ?, lastUpdateBy = ? WHERE appointmentId = ?");
+                            apptUpdateQuery.setInt(1, custID);
+                            apptUpdateQuery.setString(2, apptTitle);
+                            apptUpdateQuery.setString(3, apptDescription);
+                            apptUpdateQuery.setString(4, apptLocation);
+                            apptUpdateQuery.setString(5, apptContact);
+                            apptUpdateQuery.setString(6, apptURL);
+                            apptUpdateQuery.setTimestamp(7, startTime);
+                            apptUpdateQuery.setTimestamp(8, endTime);
+                            apptUpdateQuery.setDate(9, date);
+                            apptUpdateQuery.setString(10, person);
+                            apptUpdateQuery.setInt(11, apptID);
+                            apptUpdateQuery.executeUpdate();
+                            System.out.println("Appointment at ID " + apptID + " has been updated!");
+                            apptUpdateQuery.close();
+                        }catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    
+    public LocalDate getDateFromString(String date) throws ParseException {
+//        LocalDate dateToReturn = null;
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("M-d-yyyy hh:mm a");
+        LocalDate dateToReturn = LocalDate.parse(date, format);
+        return dateToReturn;
+    }
+    
+    public String getTimeFromString(String time) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("M-d-yyyy hh:mm a");
+        LocalTime timeToReturn = LocalTime.parse(time, format);
+        String timeInString = timeToReturn.toString();
+        return timeInString; 
+    }
+    
+    LocalDateTime getAppointmentStartTime() throws ParseException {
+        LocalDate localDate = ModApptDatePicker.getValue();
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        Time start = new Time(formatter.parse(ModApptStartTimeEntry.getText()).getTime());
+        LocalTime startingTime = start.toLocalTime();
+        ZoneId tz = ZoneId.systemDefault();
+        TimeZone tzname = TimeZone.getDefault();
+        ZonedDateTime startTimeAndZone = ZonedDateTime.of(localDate, startingTime, tz);
+        ZonedDateTime startTimeAndZoneUTC = startTimeAndZone.withZoneSameInstant(ZoneOffset.UTC);
+        LocalDateTime startDateTimeLocal = LocalDateTime.ofInstant(startTimeAndZoneUTC.toInstant(), ZoneId.of("UTC"));
+        
+        return startDateTimeLocal;
+    }
+    
+    LocalDateTime getAppointmentEndTime() throws ParseException {
+        LocalDate localDate = ModApptDatePicker.getValue();
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        Time end = new Time(formatter.parse(ModApptEndTimeEntry.getText()).getTime());
+        LocalTime endingTime = end.toLocalTime();
+        ZoneId tz = ZoneId.systemDefault();
+        ZonedDateTime endTimeAndZone = ZonedDateTime.of(localDate, endingTime, tz);
+        ZonedDateTime endTimeAndZoneUTC = endTimeAndZone.withZoneSameInstant(ZoneOffset.UTC);
+        LocalDateTime endDateTimeLocal = LocalDateTime.ofInstant(endTimeAndZoneUTC.toInstant(), ZoneId.of("UTC"));
+        
+        return endDateTimeLocal;
+    }
+   
 }

@@ -173,6 +173,7 @@ public class ModifyCustomerController implements Initializable {
         }
 
     }
+
     
     customer findCustToModify(String custName) {
         customer customerToModify = new customer();

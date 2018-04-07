@@ -206,6 +206,7 @@
                         <Button fx:id="ForwardButton" layoutX="572.0" layoutY="391.0" mnemonicParsing="false" onAction="#ForwardButtonPressed" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="&gt;&gt;" />
                         <Button fx:id="WeekViewButton" layoutX="626.0" layoutY="19.0" mnemonicParsing="false" onAction="#WeekViewButtonPressed" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" styleClass="monthButton" stylesheets="@appointmentCalendar.css" text="Week View" />
                         <Button fx:id="MonthViewButton" layoutX="626.0" layoutY="19.0" mnemonicParsing="false" onAction="#MonthViewButtonPressed" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Month View" visible="false" />
+                        <Button fx:id="RefreshButton" layoutX="504.0" layoutY="19.0" mnemonicParsing="false" onAction="#refreshCalendars" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" styleClass="monthButton" stylesheets="@appointmentCalendar.css" text="Refresh" />
                      </children>
                   </AnchorPane>
             </content>

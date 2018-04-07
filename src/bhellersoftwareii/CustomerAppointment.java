@@ -208,7 +208,7 @@ public class CustomerAppointment {
     }
     
     
-    public CustomerAppointment getAppointmentDetails(String apptID){
+    public static CustomerAppointment getAppointmentDetails(String apptID){
         int appointmentIDInt = Integer.parseInt(apptID);
         CustomerAppointment appointment = new CustomerAppointment();
         try{
@@ -253,5 +253,8 @@ public class CustomerAppointment {
         return appointment;
     }
     
-
+public static void resetAllAppointments() {
+    appointmentList.clear();
+    setAllAppointments();
+}
 }

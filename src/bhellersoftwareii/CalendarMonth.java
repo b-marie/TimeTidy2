@@ -45,6 +45,7 @@ public class CalendarMonth {
     
     public static void setCalendarMonth(GridPane gridPane, LocalDateTime day) throws IOException {
         allCalendarDays.clear();
+        CustomerAppointment.resetAllAppointments();
         LocalDate calendarDate = LocalDate.of(day.getYear(), day.getMonth(), 1);
         ArrayList<Node> dayOfWeekArray = new ArrayList<>(7); 
         for(int k = 0; k <= 6; k++) {
@@ -104,8 +105,8 @@ public class CalendarMonth {
 }
     
     public static void clearAllAppointments(GridPane gridPane) {
-        for(MonthAppointmentButton b : buttonsToAdd) {
+        buttonsToAdd.forEach((b) -> {
             gridPane.getChildren().removeAll(b);
-        }
+        });
     }
 }
