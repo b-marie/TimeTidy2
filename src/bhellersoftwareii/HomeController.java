@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -40,7 +41,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -64,6 +67,8 @@ public class HomeController implements Initializable {
     CalendarMonth thisMonth = new CalendarMonth();
     CalendarWeek thisWeek = new CalendarWeek();
     LocalDateTime referenceDate;
+    
+    
 
     /**
      * Initializes the controller class.
@@ -130,7 +135,7 @@ public class HomeController implements Initializable {
 
     @FXML
     GridPane CalendarMonthGrid = new GridPane();
-
+    
     @FXML
     Label CalendarMonthYearText;
     
@@ -217,6 +222,9 @@ public class HomeController implements Initializable {
     
     @FXML
     private Hyperlink CustIDLink;
+    
+    @FXML
+    private Button RefreshButton;
     
     public static ObservableList<customer> data = FXCollections.observableArrayList();
     public static ObservableList<customer> data2;
@@ -344,6 +352,44 @@ public class HomeController implements Initializable {
     @FXML
     void CustomerRecordsDeleteButtonSelected(ActionEvent event) {
         System.out.println("Customer Records Delete Button Selected!");
+        data2 = CustomerRecordsTable.getItems();
+        selectedCustomer = CustomerRecordsTable.getSelectionModel().getSelectedItem();
+        String selectedCustomerName = selectedCustomer.getCustomerName();
+        //Confirm they want to cancel
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Please confirm");
+        confirm.setHeaderText("Confirm Delete Customer");
+        confirm.setContentText("Are you sure you wish to delete this customer?");
+
+        //Close the window
+        confirm.showAndWait().ifPresent((response -> {
+            if (response == ButtonType.OK) {
+                data.remove(selectedCustomer);
+                try{
+                    Class.forName("com.mysql.jdbc.Driver");
+
+                    String url = "jdbc:mysql://52.206.157.109/U04vDR";
+                    String user = "U04vDR";
+                    String pass = "53688357932";
+                    Connection conn = DriverManager.getConnection(url, user, pass);
+                    if(conn != null) {
+                        System.out.println("Connected to the database!");
+                        //Query if country exists or not
+                        try{
+                            PreparedStatement apptUpdateQuery = conn.prepareStatement("DELETE FROM customer WHERE customerName = ?");
+                            apptUpdateQuery.setString(1, selectedCustomerName);
+                            apptUpdateQuery.executeUpdate();
+                            System.out.println("Customer " + selectedCustomerName + " has been deleted!");
+                            apptUpdateQuery.close();
+                        }catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            }));
     }
 
     @FXML
@@ -381,6 +427,11 @@ public class HomeController implements Initializable {
         MonthViewButton.setVisible(false);
         CalendarMonthGrid.setVisible(true);
         CalendarMonth.setCalendarMonth(CalendarMonthGrid, referenceDate);
+    }
+    
+    public void refreshCalendars() throws IOException {
+        CalendarMonth.setCalendarMonth(CalendarMonthGrid, referenceDate);
+        CalendarWeek.setCalendarWeek(WeekViewGrid, referenceDate);
     }
 
 }
