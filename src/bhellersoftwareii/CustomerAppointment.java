@@ -5,7 +5,6 @@
  */
 package bhellersoftwareii;
 
-import static bhellersoftwareii.CalendarMonth.allCalendarDays;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,6 +19,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -33,7 +33,7 @@ import javafx.scene.control.Button;
  * @author Britt
  */
 public class CustomerAppointment {
-//    private static ObservableList<customer> appointmentList = FXCollections.observableArrayList();
+    public static ArrayList<CustomerAppointment> appointmentList = new ArrayList<>();
     SimpleIntegerProperty appointmentID = new SimpleIntegerProperty(0);
     SimpleIntegerProperty appointmentCustomerID = new SimpleIntegerProperty(0);
     SimpleStringProperty appointmentTitle = new SimpleStringProperty("");
@@ -73,7 +73,7 @@ public class CustomerAppointment {
         
     }
     
-    int getAppointmentID(){
+    public int getAppointmentID(){
         return appointmentID.get();
     }
     
@@ -89,7 +89,7 @@ public class CustomerAppointment {
         appointmentCustomerID.set(ID);
     }
     
-    String getAppointmentTitle(){
+    public String getAppointmentTitle(){
         return appointmentTitle.get();
     }
     
@@ -97,7 +97,7 @@ public class CustomerAppointment {
         appointmentTitle.set(title);
     }
     
-    String getAppointmentDescription(){
+    public String getAppointmentDescription(){
         return appointmentDescription.get();
     }
     
@@ -105,7 +105,7 @@ public class CustomerAppointment {
         appointmentDescription.set(description);
     }
     
-    String getAppointmentLocation(){
+    public String getAppointmentLocation(){
         return appointmentLocation.get();
     }
     
@@ -113,7 +113,7 @@ public class CustomerAppointment {
         appointmentLocation.set(location);
     }
     
-    String getAppointmentContact(){
+    public String getAppointmentContact(){
         return appointmentContact.get();
     }
     
@@ -121,7 +121,7 @@ public class CustomerAppointment {
         appointmentContact.set(contact);
     }
     
-    String getAppointmentURL(){
+    public String getAppointmentURL(){
         return appointmentURL.get();
     }
     
@@ -129,7 +129,7 @@ public class CustomerAppointment {
         appointmentURL.set(url);
     }
     
-    String getStartTime() {
+    public String getStartTime() {
         return appointmentStart;
     }
     
@@ -141,7 +141,7 @@ public class CustomerAppointment {
         appointmentStart = timeToDisplay;
     }
     
-    String getEndTime() {
+    public String getEndTime() {
         return appointmentEnd;
     }
     
@@ -152,7 +152,7 @@ public class CustomerAppointment {
         appointmentEnd = timeToDisplay;
     }
     
-    String getAppointmentLastUpdatedBy(){
+    public String getAppointmentLastUpdatedBy(){
         return appointmentLastUpdatedBy.get();
     }
     
@@ -160,8 +160,55 @@ public class CustomerAppointment {
         appointmentLastUpdatedBy.set(person);
     }
     
+    public static void setAllAppointments() {
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://52.206.157.109/U04vDR";
+            String user = "U04vDR";
+            String pass = "53688357932";
+            Connection conn = DriverManager.getConnection(url, user, pass);
+            try(PreparedStatement stmt = conn.prepareStatement("SELECT * FROM appointment")) {
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()) {
+                    CustomerAppointment appointmentToAdd = new CustomerAppointment();
+                    int appointmentID = rs.getInt("appointmentId");
+                    appointmentToAdd.setAppointmentID(appointmentID);
+                    int customerID = rs.getInt("customerId");
+                    appointmentToAdd.setAppointmentCustomerID(customerID);
+                    String appointmentTitle = rs.getString("title");
+                    appointmentToAdd.setAppointmentTitle(appointmentTitle);
+                    String appointmentDescription = rs.getString("description");
+                    appointmentToAdd.setAppointmentDescription(appointmentDescription);
+                    String appointmentLocation = rs.getString("location");
+                    appointmentToAdd.setAppointmentLocation(appointmentLocation);
+                    String appointmentContact = rs.getString("contact");
+                    appointmentToAdd.setAppointmentContact(appointmentContact);
+                    String appointmentURL = rs.getString("url");
+                    appointmentToAdd.setAppointmentURL(appointmentURL);
+                    java.sql.Timestamp start = rs.getTimestamp("start");
+                    java.sql.Timestamp end = rs.getTimestamp("end");
+                    appointmentToAdd.setStartTime(start);
+                    appointmentToAdd.setEndTime(end);
+                    String appointmentLastUpdatedBy = rs.getString("lastUpdateBy");
+                    appointmentToAdd.setAppointmentLastUpdatedBy(appointmentLastUpdatedBy);
+                    appointmentList.add(appointmentToAdd);
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+
+            }
+        conn.close();
+        } catch(Exception e){
+                e.printStackTrace();    
+            }
+    }
     
-    CustomerAppointment getAppointmentDetails(String apptID){
+    public static ArrayList<CustomerAppointment> getAllAppointments() {
+        return appointmentList;
+    }
+    
+    
+    public CustomerAppointment getAppointmentDetails(String apptID){
         int appointmentIDInt = Integer.parseInt(apptID);
         CustomerAppointment appointment = new CustomerAppointment();
         try{
@@ -194,10 +241,6 @@ public class CustomerAppointment {
                     appointment.setEndTime(end);
                     String appointmentLastUpdatedBy = rs.getString("lastUpdateBy");
                     appointment.setAppointmentLastUpdatedBy(appointmentLastUpdatedBy);
-//                    AppointmentDetailsController.currentAppointment = new CustomerAppointment(appointmentID, customerID, appointmentTitle, appointmentDescription, 
-//                    appointmentLocation, appointmentContact, appointmentURL, start, 
-//                    end, appointmentLastUpdatedBy);
-//                    return appointment;
                 }
             } catch(Exception e){
                 e.printStackTrace();

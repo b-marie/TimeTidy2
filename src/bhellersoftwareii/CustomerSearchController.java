@@ -5,6 +5,8 @@
  */
 package bhellersoftwareii;
 
+import bhellersoftwareii.customer;
+import bhellersoftwareii.HomeController;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -60,7 +62,7 @@ public class CustomerSearchController implements Initializable {
 //        
     }    
     
-    static String custID = "0";
+    public static String custID = "0";
     
     @FXML
     private TableView<customer> CustomerRecordsSearchTable;

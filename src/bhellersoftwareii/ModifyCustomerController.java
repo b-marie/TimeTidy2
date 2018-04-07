@@ -5,6 +5,8 @@
  */
 package bhellersoftwareii;
 
+import bhellersoftwareii.customer;
+import bhellersoftwareii.HomeController;
 import static bhellersoftwareii.HomeController.data;
 import java.net.URL;
 import java.sql.Connection;
@@ -94,13 +96,12 @@ public class ModifyCustomerController implements Initializable {
         confirm.setContentText("Are you sure you wish to exit without saving?");
 
         //Close the window
-        Optional<ButtonType> result = confirm.showAndWait();
-        if (result.get() == ButtonType.OK){
-            Stage stage = (Stage) ModCustCancelButton.getScene().getWindow();
-            stage.close();
-        } else {
-            // ... user chose CANCEL or closed the dialog
-        }
+        confirm.showAndWait().ifPresent((response -> {
+            if (response == ButtonType.OK) {
+                Stage stage = (Stage) ModCustCancelButton.getScene().getWindow();
+                stage.close();
+            }
+            }));
     }
 
     @FXML
@@ -154,12 +155,12 @@ public class ModifyCustomerController implements Initializable {
                         System.out.println(rs);
                         while(rs.next()) {
                             customer cm = new customer();
-                            cm.customerName.set(rs.getString("customerName"));
-                            cm.customerAddressText.set(rs.getString("address"));
-                            cm.customerAddressText2.set(rs.getString("address2"));
-                            cm.customerCity.set(rs.getString("city"));
-                            cm.customerCountry.set(rs.getString("country"));
-                            cm.customerPhoneNumber.set(rs.getString("phone"));
+                            cm.setCustomerName(rs.getString("customerName"));
+                            cm.setCustomerAddressText(rs.getString("address"));
+                            cm.setCustomerAddressText2(rs.getString("address2"));
+                            cm.setCustomerCity(rs.getString("city"));
+                            cm.setCustomerCountry(rs.getString("country"));
+                            cm.setCustomerPhoneNumber(rs.getString("phone"));
                             HomeController.data.add(cm);
                             System.out.println(cm);
                         }
@@ -187,18 +188,18 @@ public class ModifyCustomerController implements Initializable {
                         ResultSet rs = SQL.executeQuery();
                         System.out.println(rs);
                         while(rs.next()) {
-                            customerToModify.customerID.set(rs.getInt("customerId"));
-                            customerToModify.customerName.set(rs.getString("customerName"));
-                            customerToModify.customerAddressID.set(rs.getInt("addressId"));
-                            customerToModify.customerActive = (rs.getBoolean("active"));
-                            customerToModify.customerAddressText.set(rs.getString("address"));
-                            customerToModify.customerAddressText2.set(rs.getString("address2"));
-                            customerToModify.customerCityID.set(rs.getInt("cityId"));
-                            customerToModify.customerPostalCode.set(rs.getString("postalCode"));
-                            customerToModify.customerCity.set(rs.getString("city"));
-                            customerToModify.customerCountry.set(rs.getString("country"));
-                            customerToModify.customerCountryID.set(rs.getInt("countryId"));
-                            customerToModify.customerPhoneNumber.set(rs.getString("phone"));
+                            customerToModify.setCustomerID(rs.getInt("customerId"));
+                            customerToModify.setCustomerName(rs.getString("customerName"));
+                            customerToModify.setCustomerAddressID(rs.getInt("addressId"));
+                            customerToModify.setCustomerActive(rs.getBoolean("active"));
+                            customerToModify.setCustomerAddressText(rs.getString("address"));
+                            customerToModify.setCustomerAddressText2(rs.getString("address2"));
+                            customerToModify.setCustomerCityID(rs.getInt("cityId"));
+                            customerToModify.setCustomerPostalCode(rs.getString("postalCode"));
+                            customerToModify.setCustomerCity(rs.getString("city"));
+                            customerToModify.setCustomerCountry(rs.getString("country"));
+                            customerToModify.setCustomerCountryID(rs.getInt("countryId"));
+                            customerToModify.setCustomerPhoneNumber(rs.getString("phone"));
                             System.out.println(customerToModify);
                         }
                         rs.close();

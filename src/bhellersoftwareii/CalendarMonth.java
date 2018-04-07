@@ -5,9 +5,9 @@
  */
 package bhellersoftwareii;
 
-import static bhellersoftwareii.calendar.currentYearMonth;
-import static bhellersoftwareii.calendar.getMonthVal;
-import static bhellersoftwareii.calendar.getYr;
+import bhellersoftwareii.CustomerAppointment;
+import bhellersoftwareii.MonthAppointmentButton;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,12 +18,15 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javax.swing.text.DateFormatter;
 
 /**
  *
@@ -40,7 +43,8 @@ public class CalendarMonth {
     
     }
     
-    public static void setCalendarMonth(GridPane gridPane, LocalDateTime day) {
+    public static void setCalendarMonth(GridPane gridPane, LocalDateTime day) throws IOException {
+        allCalendarDays.clear();
         LocalDate calendarDate = LocalDate.of(day.getYear(), day.getMonth(), 1);
         ArrayList<Node> dayOfWeekArray = new ArrayList<>(7); 
         for(int k = 0; k <= 6; k++) {
@@ -48,6 +52,7 @@ public class CalendarMonth {
             dayOfWeekArray.add(node);
         }
         gridPane.getChildren().clear();
+        
         for(int l = 0; l <= 6; l++) {
             gridPane.getChildren().add(l, dayOfWeekArray.get(l));
         }
@@ -70,84 +75,37 @@ public class CalendarMonth {
                 allCalendarDays.add(cd);
             }
         }
-        
+        clearAllAppointments(gridPane);
+        setAllAppointments(gridPane);        
     }
     
-    public static void addMonthAppointments(GridPane gridPane, LocalDateTime date) {
-        ArrayList<ButtonObject> buttonIDs = new ArrayList<>();
-        //Get list of all button objects to add
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://52.206.157.109/U04vDR";
-            String user = "U04vDR";
-            String pass = "53688357932";
-            Connection conn = DriverManager.getConnection(url, user, pass);
-            try(PreparedStatement stmt = conn.prepareStatement("SELECT * FROM appointment")) {
-                        ResultSet rs = stmt.executeQuery();
-                        while(rs.next()) {
-                            int appointmentID = rs.getInt("appointmentId");
-                            String btnText = rs.getString("title");
-                            java.sql.Timestamp start = rs.getTimestamp("start");
-                            LocalDateTime startTime = start.toLocalDateTime();
-                            ButtonObject buttonInfo = new ButtonObject(appointmentID, btnText, startTime);
-                            buttonIDs.add(buttonInfo);
-                            System.out.println(buttonInfo.getButtonID());
-                        }
-            } catch(Exception e){
-                e.printStackTrace();
+    public static void setAllAppointments(GridPane gridPane) throws IOException {
+        for(CustomerAppointment a : CustomerAppointment.getAllAppointments()){
+            int xval = 0;
+            int yval = 0;
+            for(CalendarDay d : allCalendarDays) {
+                LocalDate dateToCompare = d.getDate();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M-d-yyyy hh:mm a");
+                LocalDate appointmentDateToCompare = LocalDate.parse(a.getStartTime(), formatter);
+                if(d.getDate().isEqual(appointmentDateToCompare)) {
+                    String appointmentID = Integer.toString(a.getAppointmentID());
+                    String appointmentTitle = a.getAppointmentTitle();
+                    MonthAppointmentButton newAppointment = new MonthAppointmentButton(appointmentTitle, appointmentID);
+                    newAppointment.setMinWidth(50);
+                    newAppointment.setText(appointmentTitle);
+                    newAppointment.getStyleClass().add("monthButton");
+                    buttonsToAdd.add(newAppointment);
+                    xval = d.getXVal();
+                    yval = d.getYVal();
+                    gridPane.add(newAppointment, xval, yval);
+                }
             }
-        conn.close();
-        } catch(Exception e){
-                e.printStackTrace();    
-            }
-        //find button objects in current month
-        for(ButtonObject btn : buttonIDs){
-            if(btn.getTime().getMonth() == date.getMonth()){
-                int btnID = btn.getButtonID();
-                try{
-                    Class.forName("com.mysql.jdbc.Driver");
-                    String url = "jdbc:mysql://52.206.157.109/U04vDR";
-                    String user = "U04vDR";
-                    String pass = "53688357932";
-                    Connection conn = DriverManager.getConnection(url, user, pass);
-                    try(PreparedStatement stmt = conn.prepareStatement("SELECT * FROM appointment WHERE appointmentId = ?")) {
-                                stmt.setInt(1, btnID);
-                                ResultSet rs = stmt.executeQuery();
-                                if(rs.next()) {
-                                    int appointmentID = rs.getInt("appointmentId");
-                                    String btnText = rs.getString("title");
-                                    java.sql.Timestamp start = rs.getTimestamp("start");
-                                    String appointID = Integer.toString(appointmentID);
-                                    MonthAppointmentButton newAppointment = new MonthAppointmentButton(btnText, appointID);
-                                    newAppointment.setId(appointID);
-                                    buttonsToAdd.add(newAppointment);
-                                    LocalDateTime startTime = start.toLocalDateTime();
-                                    LocalDate apptDate = startTime.toLocalDate();
-                                    int xVal = 0;
-                                    int yVal = 0;
-                                    for(CalendarDay d : allCalendarDays) {
-                                        LocalDate dateToCompare = d.getDate();
-                                        if(d.getDate().isEqual(apptDate)) {
-                                            xVal = d.getXVal();
-                                            yVal = d.getYVal();
-                                        }
-                                    }
-                                    gridPane.add(newAppointment, xVal, yVal);
-                                }
-                    } catch(Exception e){
-                        e.printStackTrace();
-
-                    }
-                conn.close();
-                } catch(Exception e){
-                        e.printStackTrace();    
-                    }
-            }
+    }
+}
+    
+    public static void clearAllAppointments(GridPane gridPane) {
+        for(MonthAppointmentButton b : buttonsToAdd) {
+            gridPane.getChildren().removeAll(b);
         }
-        
-
-        
-        
     }
-    
 }

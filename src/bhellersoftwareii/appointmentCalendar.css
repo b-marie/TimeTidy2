@@ -15,4 +15,5 @@ and open the template in the editor.
 .monthButton {
     -fx-background-color:  #00B2A4;
     -fx-border-color:  #FF6519;
+    -fx-margin: 10px;
 }

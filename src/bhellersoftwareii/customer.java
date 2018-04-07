@@ -48,7 +48,7 @@ public class customer {
         
     }
 
-    customer() {
+    public customer() {
 
     }
             

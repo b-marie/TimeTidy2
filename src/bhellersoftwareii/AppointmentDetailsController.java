@@ -5,7 +5,10 @@
  */
 package bhellersoftwareii;
 
-import static bhellersoftwareii.CalendarMonth.allCalendarDays;
+import bhellersoftwareii.CustomerAppointment;
+import bhellersoftwareii.MonthAppointmentButton;
+import bhellersoftwareii.HomeController;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,6 +21,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -29,8 +34,9 @@ import javafx.stage.Stage;
  */
 public class AppointmentDetailsController implements Initializable {
 
-    MonthAppointmentButton button = MonthAppointmentButton.clickedButton;
-//    public static CustomerAppointment currentAppointment = new CustomerAppointment();
+    
+    public static CustomerAppointment currentAppointment = new CustomerAppointment();
+    String clickedButton = HomeController.getClickedButtonID();
     
     
     /**
@@ -39,10 +45,9 @@ public class AppointmentDetailsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        String apptID = button.getApptID();
-        System.out.println("Appointment ID for this button is " + apptID);
-        ApptIDLabel.setText(apptID);
-        CustomerAppointment thisAppointment = new CustomerAppointment().getAppointmentDetails(apptID);
+        System.out.println("Appointment ID for this button is " + clickedButton);
+        ApptIDLabel.setText(clickedButton);
+        CustomerAppointment thisAppointment = new CustomerAppointment().getAppointmentDetails(clickedButton);
         ApptTitleLabel.setText(thisAppointment.getAppointmentTitle());
         ApptDescriptionLabel.setText(thisAppointment.getAppointmentDescription());
         ApptLocationLabel.setText(thisAppointment.getAppointmentLocation());
@@ -101,8 +106,13 @@ public class AppointmentDetailsController implements Initializable {
     }
 
     @FXML
-    void ApptDetailsEditButtonClicked(ActionEvent event) {
+    void ApptDetailsEditButtonClicked(ActionEvent event) throws IOException {
         System.out.println("Appointment Edit button clicked");
+        Parent modAppt = FXMLLoader.load(getClass().getResource("ModifyAppointment.fxml"));
+        Scene modApptScene = new Scene(modAppt);
+        Stage modApptStage = new Stage();
+        modApptStage.setScene(modApptScene);
+        modApptStage.show();
 
     }
     

@@ -6,6 +6,8 @@
 package bhellersoftwareii;
 
 import java.io.IOException;
+import bhellersoftwareii.CustomerAppointment;
+import bhellersoftwareii.HomeController;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.logging.Level;
@@ -26,10 +28,16 @@ public class MonthAppointmentButton extends Button {
     
     @FXML
     private Button newApptButton;
+
     private String apptID;
+    public static String clickedButtonID = "";
     private String btnText;
     public static MonthAppointmentButton clickedButton = new MonthAppointmentButton();
     
+    
+    MonthAppointmentButton() {
+        
+    }
 
     MonthAppointmentButton(String buttonText, String apptID) throws IOException {
         try {
@@ -52,10 +60,6 @@ public class MonthAppointmentButton extends Button {
         
     }
 
-    MonthAppointmentButton() {
-        
-    }
-    
     public Button getButton(){
         return this.newApptButton;
     }
@@ -79,7 +83,9 @@ public class MonthAppointmentButton extends Button {
     public void MonthAppointmentButtonClicked() throws IOException {
        System.out.println("Button " + apptID + " was clicked!");
        try{
-           clickedButton.setApptID(apptID);
+            clickedButton.setApptID(apptID);
+            HomeController.setClickedButtonID(apptID);
+            System.out.println("Home controller thing is " + HomeController.getClickedButtonID());
             Parent apptDetails = FXMLLoader.load(getClass().getResource("AppointmentDetails.fxml"));
             Scene apptDetailsScene = new Scene(apptDetails);
             Stage apptDetailsStage = new Stage();

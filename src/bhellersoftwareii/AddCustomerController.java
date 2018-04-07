@@ -5,6 +5,8 @@
  */
 package bhellersoftwareii;
 
+import bhellersoftwareii.customer;
+import bhellersoftwareii.HomeController;
 import static bhellersoftwareii.HomeController.data;
 import java.net.URL;
 import java.sql.Connection;
@@ -88,13 +90,12 @@ public class AddCustomerController implements Initializable {
         confirm.setContentText("Are you sure you wish to exit without saving?");
 
         //Close the window
-        Optional<ButtonType> result = confirm.showAndWait();
-        if (result.get() == ButtonType.OK){
-            Stage stage = (Stage) NewCustCancelButton.getScene().getWindow();
-            stage.close();
-        } else {
-            // ... user chose CANCEL or closed the dialog
-        }
+        confirm.showAndWait().ifPresent((response -> {
+            if (response == ButtonType.OK) {
+                Stage stage = (Stage) NewCustCancelButton.getScene().getWindow();
+                stage.close();
+            }
+            }));
     }
 
     @FXML
@@ -141,12 +142,12 @@ public class AddCustomerController implements Initializable {
                         System.out.println(rs);
                         while(rs.next()) {
                             customer cm = new customer();
-                            cm.customerName.set(rs.getString("customerName"));
-                            cm.customerAddressText.set(rs.getString("address"));
-                            cm.customerAddressText2.set(rs.getString("address2"));
-                            cm.customerCity.set(rs.getString("city"));
-                            cm.customerCountry.set(rs.getString("country"));
-                            cm.customerPhoneNumber.set(rs.getString("phone"));
+                            cm.setCustomerName(rs.getString("customerName"));
+                            cm.setCustomerAddressText(rs.getString("address"));
+                            cm.setCustomerAddressText2(rs.getString("address2"));
+                            cm.setCustomerCity(rs.getString("city"));
+                            cm.setCustomerCountry(rs.getString("country"));
+                            cm.setCustomerPhoneNumber(rs.getString("phone"));
                             HomeController.data.add(cm);
                             System.out.println(cm);
                         }
