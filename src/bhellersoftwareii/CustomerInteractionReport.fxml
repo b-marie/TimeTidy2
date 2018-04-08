@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: CDC9C9;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bhellersoftwareii.CustomerInteractionReport">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="SNOW" height="749.0" layoutX="25.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" width="754.0" />
+      <Label fx:id="ReportLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="249.0" layoutY="52.0" text="Customer Interaction" textAlignment="CENTER" textFill="#ff6519">
+         <font>
+            <Font name="Calibri Bold Italic" size="36.0" />
+         </font>
+      </Label>
+      <TableView fx:id="ReportTableView" layoutX="95.0" layoutY="112.0" prefHeight="588.0" prefWidth="613.0">
+        <columns>
+          <TableColumn fx:id="ConsultantCol" prefWidth="191.0" text="Consultant" />
+          <TableColumn fx:id="CustNameCol" prefWidth="251.0" text="Customer Name" />
+            <TableColumn fx:id="DateAddedCol" prefWidth="170.0" text="Date Added" />
+        </columns>
+      </TableView>
+      <Button fx:id="ReportCloseButton" layoutX="665.0" layoutY="716.0" mnemonicParsing="false" onAction="#ReportCloseButtonClicked" prefHeight="34.0" prefWidth="72.0" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Close" />
+   </children>
+</AnchorPane>

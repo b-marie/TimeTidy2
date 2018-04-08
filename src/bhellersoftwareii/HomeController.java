@@ -6,6 +6,8 @@
 package bhellersoftwareii;
 
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -21,14 +23,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.AnchorPane;
@@ -79,6 +84,11 @@ public class HomeController implements Initializable {
         
         //Generate reference date from which month and week calendars can be built on
         referenceDate = LocalDateTime.now();
+        try {
+            logLogin();
+        } catch (Exception ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         clickedButtonID = "";
         
@@ -229,6 +239,10 @@ public class HomeController implements Initializable {
     public static ObservableList<customer> data = FXCollections.observableArrayList();
     public static ObservableList<customer> data2;
     public static customer selectedCustomer = new customer();
+    public static String reportTitle = "";
+    public Boolean appointmentTypeToggle = false;
+    public Boolean consultantScheduleToggle = false;
+    public Boolean customReportToggle = false;
     
     public void buildCustomerDataTable(){
         try {
@@ -238,7 +252,7 @@ public class HomeController implements Initializable {
                     String pass = "53688357932";
                     Connection con = DriverManager.getConnection(sqlurl, user, pass);
                     if(con != null) {
-                        String SQL = "SELECT customer.customerName, address.address, address.address2, city.city, country.country, address.phone FROM U04vDR.customer JOIN address on customer.addressId = address.addressId JOIN city on address.cityId = city.cityId JOIN country on city.countryId = country.countryId";
+                        String SQL = "SELECT customer.customerName, customer.createDate, customer.createdBy, address.address, address.address2, city.city, country.country, address.phone FROM U04vDR.customer JOIN address on customer.addressId = address.addressId JOIN city on address.cityId = city.cityId JOIN country on city.countryId = country.countryId";
                         ResultSet rs = con.createStatement().executeQuery(SQL);
                         System.out.println(rs);
                         while(rs.next()) {
@@ -250,6 +264,8 @@ public class HomeController implements Initializable {
                             cm.setCustomerCity(rs.getString("city"));
                             cm.setCustomerCountry(rs.getString("country"));
                             cm.setCustomerPhoneNumber(rs.getString("phone"));
+                            cm.setCustomerDateAdded(rs.getTimestamp("createDate"));
+                            cm.setCustomerAddedBy(rs.getString("createdBy"));
                             data.add(cm);
                             System.out.println(cm);
                         }
@@ -265,7 +281,10 @@ public class HomeController implements Initializable {
 
     @FXML
     void AppointmentTypeToggleButtonSelected(ActionEvent event) {
-        System.out.println("Something happened!");
+        System.out.println("AppointmentTypeToggleButton is selected");
+        consultantScheduleToggle = false;
+        customReportToggle = false;
+        appointmentTypeToggle = true;
     }
 
     @FXML
@@ -283,7 +302,10 @@ public class HomeController implements Initializable {
 
     @FXML
     void ConsultantScheduleToggleButtonSelected(ActionEvent event) {
-        System.out.println("Something happened!");
+        System.out.println("ConsultantScheduleToggle selected");
+        consultantScheduleToggle = true;
+        customReportToggle = false;
+        appointmentTypeToggle = false;
     }
     
     @FXML
@@ -336,7 +358,10 @@ public class HomeController implements Initializable {
 
     @FXML
     void CustomReportToggleButtonSelected(ActionEvent event) {
-        System.out.println("Something happened!");
+        System.out.println("CustomeReportToggle selected");
+        consultantScheduleToggle = false;
+        customReportToggle = true;
+        appointmentTypeToggle = false;
     }
 
     @FXML
@@ -406,7 +431,45 @@ public class HomeController implements Initializable {
 
     @FXML
     void ReportsGenerateButtonSelected(ActionEvent event) {
-        System.out.println("Something happened!");
+        System.out.println("Generating report...");
+        if(appointmentTypeToggle) {
+            reportTitle = "Appointment Type by Month Report";
+            try{
+            Parent report = FXMLLoader.load(getClass().getResource("AppointmentTypeReport.fxml"));
+            Scene reportScene = new Scene(report);
+            Stage reportStage = new Stage();
+            reportStage.setScene(reportScene);
+            reportStage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        } else if (consultantScheduleToggle) {
+            reportTitle = "Consultant Schedule Report";
+            try{
+            Parent report = FXMLLoader.load(getClass().getResource("ConsultantScheduleReport.fxml"));
+            Scene reportScene = new Scene(report);
+            Stage reportStage = new Stage();
+            reportStage.setScene(reportScene);
+            reportStage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        } else if (customReportToggle) {
+            reportTitle = "CustomerInteractionReport";
+            try{
+            Parent report = FXMLLoader.load(getClass().getResource("CustomerInteractionReport.fxml"));
+            Scene reportScene = new Scene(report);
+            Stage reportStage = new Stage();
+            reportStage.setScene(reportScene);
+            reportStage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        } else {
+            System.out.println("Please select a report type");
+        }
+        
+            
     }
     
     @FXML
@@ -433,5 +496,22 @@ public class HomeController implements Initializable {
         CalendarMonth.setCalendarMonth(CalendarMonthGrid, referenceDate);
         CalendarWeek.setCalendarWeek(WeekViewGrid, referenceDate);
     }
+    
+    public void logLogin() throws Exception {
+        String filename = "log.txt";
+        String path = HomeController.class.getProtectionDomain().getCodeSource().getLocation().toString();
+        File fullPath = new File(path, filename);
+        
+        File directory = new File(path);
+        if(!directory.exists()){
+            directory.mkdir();
+        }
+        try(FileWriter writer = new FileWriter(fullPath, true)) {
+            writer.write(ZonedDateTime.now() + " : " + currentUser + " logged in \n");
+        } catch(IOException ee) {
+            ee.printStackTrace();
+        } 
+
+        }
 
 }

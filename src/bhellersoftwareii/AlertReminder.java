@@ -38,7 +38,7 @@ public class AlertReminder {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Reminder!");
                 alert.setHeaderText("This is a reminder!");
-                alert.setContentText("There's an appointment in the next 15 minutes!");
+                alert.setContentText("There's an appointment with " + appt.getAppointmentContact() + "  at " + appt.getStartTime());
             
                 alert.showAndWait().ifPresent((response -> {
                         if (response == ButtonType.OK) {

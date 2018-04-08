@@ -5,6 +5,7 @@
  */
 package bhellersoftwareii;
 
+import java.time.LocalDateTime;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -15,7 +16,7 @@ import javafx.collections.ObservableList;
  * @author Britt
  */
 public class customer {
-    private static ObservableList<customer> customerList = FXCollections.observableArrayList();
+    static ObservableList<customer> customerList = FXCollections.observableArrayList();
     SimpleIntegerProperty customerID = new SimpleIntegerProperty(0);
     SimpleStringProperty customerName = new SimpleStringProperty("");
     SimpleIntegerProperty customerAddressID = new SimpleIntegerProperty(0);
@@ -28,11 +29,13 @@ public class customer {
     SimpleStringProperty customerCity = new SimpleStringProperty("");
     SimpleIntegerProperty customerCountryID = new SimpleIntegerProperty(0);
     SimpleStringProperty customerCountry = new SimpleStringProperty("");
+    java.sql.Timestamp dateAdded;
+    SimpleStringProperty addedBy = new SimpleStringProperty("");
     
     public customer(int customerID, String customerName, int customerAddressID, Boolean customerActive,
             String customerAddressText, String customerAddressText2, String customerPhoneNumber,
             String customerPostalCode, int customerCityID, String customerCity, 
-            int customerCountryID, String customerCountry) {
+            int customerCountryID, String customerCountry, java.sql.Timestamp dateAdded, String addedBy) {
         setCustomerID(customerID);
         setCustomerName(customerName);
         setCustomerAddressID(customerAddressID);
@@ -45,6 +48,8 @@ public class customer {
         setCustomerCity(customerCity);
         setCustomerCountryID(customerCountryID);
         setCustomerCountry(customerCountry);
+        setCustomerDateAdded(dateAdded);
+        setCustomerAddedBy(addedBy);
         
     }
 
@@ -146,5 +151,20 @@ public class customer {
     
     public void setCustomerCountry(String CustomerCountry) {
         customerCountry.set(CustomerCountry);
+    }    
+    
+    public java.sql.Timestamp getCustomerDateAdded(){
+        return dateAdded;
+    }
+    
+    public void setCustomerDateAdded(java.sql.Timestamp date) {
+        dateAdded = date;
+    }    
+    public String getCustomerAddedBy(){
+        return addedBy.get();
+    }
+    
+    public void setCustomerAddedBy(String person) {
+        addedBy.set(person);
     }    
 }

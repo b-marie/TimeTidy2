@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
@@ -117,6 +118,7 @@ public class AddCustomerController implements Initializable {
         if(addCustomer(custCountry, today, person, 
         custCity, custAddress1, custAddress2, custZipCode, 
         custPhoneNum, custName, active)) {
+
                 //Close the current stage
                 Stage stage = (Stage) NewCustSaveButton.getScene().getWindow();
                 stage.close();
@@ -270,6 +272,11 @@ public class AddCustomerController implements Initializable {
                                 rs.close();
                                 stmt.close();
                                 } 
+//                            //Add customer to customer list
+//                            customer(customerID, custName, addressID, active,
+//                                custAddress1, custAddress2, custPhoneNum,
+//                                custZipCode, cityID, custCity, 
+//                                countryID, custCountry, today, person)
                         //Return true
                         conn.close();
                         return true;

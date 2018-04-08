@@ -53,6 +53,7 @@ public class CustomerAppointment {
     private static final String DATE_FORMAT = "M-d-yyyy hh:mm a";
     DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT).withZone(tzID);
     
+    
     public CustomerAppointment(){
         
     }

@@ -261,7 +261,7 @@
                               <Font size="14.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton fx:id="CustomReportToggleButton" layoutX="284.0" layoutY="225.0" mnemonicParsing="false" onAction="#CustomReportToggleButtonSelected" text="Consultant Productivity" toggleGroup="$ReportsToggle">
+                        <RadioButton fx:id="CustomReportToggleButton" layoutX="284.0" layoutY="225.0" mnemonicParsing="false" onAction="#CustomReportToggleButtonSelected" text="Customer Interaction" toggleGroup="$ReportsToggle">
                            <font>
                               <Font size="14.0" />
                            </font>
