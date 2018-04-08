@@ -39,22 +39,22 @@ public class ConsultantScheduleReport implements Initializable {
      */
     
     
-    private static ObservableList<CustomerInteractionObject> consultantScheduleList = FXCollections.observableArrayList();
+    private static ObservableList<ConsultantScheduleObject> consultantScheduleList = FXCollections.observableArrayList();
     
     @FXML
     private Label ReportLabel;
 
     @FXML
-    private TableView<CustomerInteractionObject> ReportTableView;
+    private TableView<ConsultantScheduleObject> ReportTableView;
 
     @FXML
-    private TableColumn<CustomerInteractionObject, String> ConsultantCol;
+    private TableColumn<ConsultantScheduleObject, String> ConsultantCol;
 
     @FXML
-    private TableColumn<CustomerInteractionObject, String> ApptStartCol;
+    private TableColumn<ConsultantScheduleObject, String> ApptStartCol;
 
     @FXML
-    private TableColumn<CustomerInteractionObject, String> ApptTitleCol;
+    private TableColumn<ConsultantScheduleObject, String> ApptTitleCol;
 
     @FXML
     private Button ReportCloseButton;
@@ -62,9 +62,9 @@ public class ConsultantScheduleReport implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        ConsultantCol.setCellValueFactory(new PropertyValueFactory<CustomerInteractionObject, String>("consultantName"));
-        ApptStartCol.setCellValueFactory(new PropertyValueFactory<CustomerInteractionObject, String>("appointmentStart"));
-        ApptTitleCol.setCellValueFactory(new PropertyValueFactory<CustomerInteractionObject, String>("appointmentTitle"));
+        ConsultantCol.setCellValueFactory(new PropertyValueFactory<ConsultantScheduleObject, String>("consultantName"));
+        ApptStartCol.setCellValueFactory(new PropertyValueFactory<ConsultantScheduleObject, String>("appointmentStart"));
+        ApptTitleCol.setCellValueFactory(new PropertyValueFactory<ConsultantScheduleObject, String>("appointmentTitle"));
         consultantScheduleReport();
 
     }
@@ -89,15 +89,13 @@ public class ConsultantScheduleReport implements Initializable {
     public void consultantScheduleReport() {
         consultantScheduleList.clear();
         for(CustomerAppointment a : CustomerAppointment.appointmentList) {
-            System.out.println("Got to appointment maker!");
             String consultantName = a.getAppointmentLastUpdatedBy();
             String startTime = a.getStartTime();
             String apptTitle = a.getAppointmentTitle();
             DateTimeFormatter format = DateTimeFormatter.ofPattern("M-d-yyyy hh:mm a");
             LocalDate dateToReturn = LocalDate.parse(startTime, format);
             String dateInString = dateToReturn.toString();
-            System.out.println(dateInString);
-            CustomerInteractionObject appointmentType = new CustomerInteractionObject(consultantName, dateInString, apptTitle);
+            ConsultantScheduleObject appointmentType = new ConsultantScheduleObject(consultantName, dateInString, apptTitle);
             consultantScheduleList.add(appointmentType);
         }
         

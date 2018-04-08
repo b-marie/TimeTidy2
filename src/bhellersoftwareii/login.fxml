@@ -4,33 +4,34 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <!--<?import javax.swing.JPasswordField?>-->
 
-<AnchorPane id="AnchorPane" prefHeight="316.0" prefWidth="465.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bhellersoftwareii.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="316.0" prefWidth="465.0" style="-fx-background-color: CDC9C9;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bhellersoftwareii.LoginController">
    <children>
-      <ImageView fitHeight="63.0" fitWidth="203.0" layoutX="128.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../TimeTidyLogoSmall.png" />
-         </image>
-      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="SNOW" height="289.0" layoutX="13.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="439.0" />
       <TextField fx:id="usernameEntry" layoutX="197.0" layoutY="125.0" promptText="username" />
       <PasswordField fx:id="passwordEntry" layoutX="197.0" layoutY="166.0" promptText="password" />
-      <Button fx:id="loginButton" defaultButton="true" layoutX="207.0" layoutY="210.0" mnemonicParsing="false" onAction="#loginButtonPressed" text="Login" />
-      <Label layoutX="113.0" layoutY="125.0" text="Username">
+      <Button fx:id="loginButton" defaultButton="true" layoutX="207.0" layoutY="210.0" mnemonicParsing="false" onAction="#loginButtonPressed" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="Login" />
+      <Label fx:id="UsernameLabel" layoutX="84.0" layoutY="128.0" text="Username">
          <font>
             <Font name="Calibri Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="113.0" layoutY="170.0" text="Password">
+      <Label fx:id="PasswordLabel" layoutX="84.0" layoutY="173.0" text="Password">
          <font>
             <Font name="Calibri Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="frenchButton" layoutX="39.0" layoutY="263.0" mnemonicParsing="false" onAction="#frenchButtonPressed" text="français?" />
+      <Button fx:id="EnglishButton" layoutX="39.0" layoutY="263.0" mnemonicParsing="false" onAction="#englishButtonPressed" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="english?" visible="false" />
+      <Button fx:id="frenchButton" layoutX="39.0" layoutY="263.0" mnemonicParsing="false" onAction="#frenchButtonPressed" style="-fx-background-color: #00B2A4; -fx-border-color: #FF6519;" text="français?" />
+      <Label fx:id="WelcomeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="161.0" layoutY="42.0" text="Welcome" textAlignment="CENTER" textFill="#ff6519">
+         <font>
+            <Font name="Calibri Bold Italic" size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

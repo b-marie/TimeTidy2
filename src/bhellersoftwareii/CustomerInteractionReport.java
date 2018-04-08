@@ -93,7 +93,7 @@ public class CustomerInteractionReport implements Initializable {
             String consultantName = c.getCustomerAddedBy();
             String custName = c.getCustomerName();
             java.sql.Timestamp date = c.getCustomerDateAdded();
-            String dateAdded = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(date);
+            String dateAdded = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
             System.out.println(dateAdded);
             CustomerInteractionObject customerObject = new CustomerInteractionObject(consultantName, custName, dateAdded);
             customerInteractionList.add(customerObject);

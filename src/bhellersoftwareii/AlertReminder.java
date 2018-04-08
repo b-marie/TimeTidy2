@@ -33,7 +33,6 @@ public class AlertReminder {
             LocalDateTime appointmentTime = LocalDateTime.parse(appt.getStartTime(), formatter);
             LocalDateTime now = LocalDateTime.now();
             long minutes = ChronoUnit.MINUTES.between(now, appointmentTime);
-            System.out.println(minutes);
             if(minutes <= 15 && minutes > 0) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Reminder!");

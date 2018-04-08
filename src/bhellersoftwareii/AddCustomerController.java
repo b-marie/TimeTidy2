@@ -101,6 +101,74 @@ public class AddCustomerController implements Initializable {
 
     @FXML
     void NewCustSaveButtonClicked(ActionEvent event) {
+        //Check for exceptions
+        if(NewCustCustNameEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Customer Name field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewCustAddressEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Customer Address field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewCustPhoneNumberEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Customer phone number field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewCustZipCodeEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Customer zip code field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewCustCityEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Customer city field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewCustCountryEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Customer country field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        } else {
         System.out.println("New customer save button pressed");
         //Collect New Customer information
         String custName = NewCustCustNameEntry.getText();
@@ -141,7 +209,6 @@ public class AddCustomerController implements Initializable {
                         PreparedStatement SQL = conn.prepareStatement("SELECT customer.customerName, address.address, address.address2, city.city, country.country, address.phone FROM U04vDR.customer JOIN address on customer.addressId = address.addressId JOIN city on address.cityId = city.cityId JOIN country on city.countryId = country.countryId WHERE customer.customerName = ? ");
                         SQL.setString(1, custName);
                         ResultSet rs = SQL.executeQuery();
-                        System.out.println(rs);
                         while(rs.next()) {
                             customer cm = new customer();
                             cm.setCustomerName(rs.getString("customerName"));
@@ -151,7 +218,6 @@ public class AddCustomerController implements Initializable {
                             cm.setCustomerCountry(rs.getString("country"));
                             cm.setCustomerPhoneNumber(rs.getString("phone"));
                             HomeController.data.add(cm);
-                            System.out.println(cm);
                         }
                     }
                     conn.close();
@@ -161,6 +227,7 @@ public class AddCustomerController implements Initializable {
             e.printStackTrace();
         }
         
+    }
     }
 
     private boolean addCustomer(String custCountry, java.sql.Date today, String person, 

@@ -39,19 +39,19 @@ public class AppointmentTypeReport implements Initializable {
      */
     
     
-    private static ObservableList<CustomerAppointmentMonthTitle> monthAppointmentList = FXCollections.observableArrayList();
+    private static ObservableList<CustomerAppointmentMonthObject> monthAppointmentList = FXCollections.observableArrayList();
     
     @FXML
     private Label ReportLabel;
 
     @FXML
-    private TableView<CustomerAppointmentMonthTitle> ReportTableView;
+    private TableView<CustomerAppointmentMonthObject> ReportTableView;
 
     @FXML
-    private TableColumn<CustomerAppointmentMonthTitle, String> ReportTableViewColumn1;
+    private TableColumn<CustomerAppointmentMonthObject, String> ReportTableViewColumn1;
 
     @FXML
-    private TableColumn<CustomerAppointmentMonthTitle, String> ReportTableViewColumn2;
+    private TableColumn<CustomerAppointmentMonthObject, String> ReportTableViewColumn2;
 
     @FXML
     private Button ReportCloseButton;
@@ -59,8 +59,8 @@ public class AppointmentTypeReport implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        ReportTableViewColumn1.setCellValueFactory(new PropertyValueFactory<CustomerAppointmentMonthTitle, String>("appointmentMonth"));
-        ReportTableViewColumn2.setCellValueFactory(new PropertyValueFactory<CustomerAppointmentMonthTitle, String>("appointmentTitle"));
+        ReportTableViewColumn1.setCellValueFactory(new PropertyValueFactory<CustomerAppointmentMonthObject, String>("appointmentMonth"));
+        ReportTableViewColumn2.setCellValueFactory(new PropertyValueFactory<CustomerAppointmentMonthObject, String>("appointmentTitle"));
         appointmentTypeByMonthReport();
 
     }
@@ -85,15 +85,13 @@ public class AppointmentTypeReport implements Initializable {
     public void appointmentTypeByMonthReport() {
         monthAppointmentList.clear();
         for(CustomerAppointment a : CustomerAppointment.appointmentList) {
-            System.out.println("Got to appointment maker!");
             String startTime = a.getStartTime();
             String apptTitle = a.getAppointmentTitle();
             DateTimeFormatter format = DateTimeFormatter.ofPattern("M-d-yyyy hh:mm a");
             LocalDate dateToReturn = LocalDate.parse(startTime, format);
             Month month = dateToReturn.getMonth();
             String monthInString = month.toString();
-            System.out.println(monthInString);
-            CustomerAppointmentMonthTitle appointmentType = new CustomerAppointmentMonthTitle(monthInString, apptTitle);
+            CustomerAppointmentMonthObject appointmentType = new CustomerAppointmentMonthObject(monthInString, apptTitle);
             monthAppointmentList.add(appointmentType);
         }
         

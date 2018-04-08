@@ -5,45 +5,27 @@
  */
 package bhellersoftwareii;
 
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.YearMonth;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.scene.layout.AnchorPane;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -59,7 +41,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -84,17 +65,19 @@ public class HomeController implements Initializable {
         
         //Generate reference date from which month and week calendars can be built on
         referenceDate = LocalDateTime.now();
+        
+        //Log the login
         try {
             logLogin();
         } catch (Exception ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        //Set clicked button ID
         clickedButtonID = "";
         
         //Get all current appointments from database and set to appointments array
         CustomerAppointment.setAllAppointments();
-        System.out.println(CustomerAppointment.appointmentList);
         
         //Check for appointments in the next 15 minutes
         AlertReminder.checkNext15MinutesAndAlert();
@@ -254,7 +237,6 @@ public class HomeController implements Initializable {
                     if(con != null) {
                         String SQL = "SELECT customer.customerName, customer.createDate, customer.createdBy, address.address, address.address2, city.city, country.country, address.phone FROM U04vDR.customer JOIN address on customer.addressId = address.addressId JOIN city on address.cityId = city.cityId JOIN country on city.countryId = country.countryId";
                         ResultSet rs = con.createStatement().executeQuery(SQL);
-                        System.out.println(rs);
                         while(rs.next()) {
                             customer cm = new customer();
 //                            cm.getCustomerName();
@@ -267,7 +249,6 @@ public class HomeController implements Initializable {
                             cm.setCustomerDateAdded(rs.getTimestamp("createDate"));
                             cm.setCustomerAddedBy(rs.getString("createdBy"));
                             data.add(cm);
-                            System.out.println(cm);
                         }
                         rs.close();
                     }
@@ -466,7 +447,6 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
         } else {
-            System.out.println("Please select a report type");
         }
         
             
@@ -499,13 +479,8 @@ public class HomeController implements Initializable {
     
     public void logLogin() throws Exception {
         String filename = "log.txt";
-        String path = HomeController.class.getProtectionDomain().getCodeSource().getLocation().toString();
-        File fullPath = new File(path, filename);
-        
-        File directory = new File(path);
-        if(!directory.exists()){
-            directory.mkdir();
-        }
+        File fullPath = new File(filename);
+
         try(FileWriter writer = new FileWriter(fullPath, true)) {
             writer.write(ZonedDateTime.now() + " : " + currentUser + " logged in \n");
         } catch(IOException ee) {

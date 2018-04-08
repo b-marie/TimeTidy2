@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -32,6 +34,9 @@ import javafx.stage.Stage;
  */
 public class LoginController implements Initializable {
 
+    String currentLanguage = "English";
+    String locale = Locale.getDefault().toString();
+    
     @FXML
     private TextField usernameEntry;
 
@@ -44,11 +49,43 @@ public class LoginController implements Initializable {
     @FXML
     private Button frenchButton;
     
+    @FXML
+    private Button EnglishButton;
+    
     static String currentUser = "";
+    
+    @FXML
+    private Label UsernameLabel;
+
+    @FXML
+    private Label PasswordLabel;
+    
+    @FXML
+    private Label WelcomeLabel;
 
     @FXML
     void frenchButtonPressed(ActionEvent event) {
         System.out.println("French button was pressed!");
+        EnglishButton.setVisible(true);
+        frenchButton.setVisible(false);
+        currentLanguage = "French";
+        WelcomeLabel.setText("Bienvenue");
+        UsernameLabel.setText("Nom d'utilisateur");
+        PasswordLabel.setText("mot de passe");
+        usernameEntry.setPromptText("Nom d'utilisateur");
+        passwordEntry.setPromptText("mot de passe");
+    }
+    
+    @FXML
+    void englishButtonPressed(ActionEvent event) {
+        EnglishButton.setVisible(false);
+        frenchButton.setVisible(true);
+        currentLanguage = "English";
+        WelcomeLabel.setText("Welcome");
+        UsernameLabel.setText("Username");
+        PasswordLabel.setText("Password");
+        usernameEntry.setPromptText("username");
+        passwordEntry.setPromptText("password");
     }
     
     private boolean validateLogin(String username, String password) {
@@ -95,19 +132,37 @@ public class LoginController implements Initializable {
         String password = passwordEntry.getText();
         
         if(userName.isEmpty()){
-           Alert usernameEntryAlert = new Alert(Alert.AlertType.WARNING);
-           usernameEntryAlert.setTitle("Invalid Username");
-           usernameEntryAlert.setHeaderText("There was a problem");
-           usernameEntryAlert.setContentText("You must enter a username!");
+            if(currentLanguage == "English"){
+                Alert usernameEntryAlert = new Alert(Alert.AlertType.WARNING);
+                usernameEntryAlert.setTitle("Invalid Username");
+                usernameEntryAlert.setHeaderText("There was a problem");
+                usernameEntryAlert.setContentText("You must enter a username!");
            
-           usernameEntryAlert.showAndWait();
+                usernameEntryAlert.showAndWait();
+            } else if (currentLanguage == "French") {
+                Alert usernameEntryAlert = new Alert(Alert.AlertType.WARNING);
+                usernameEntryAlert.setTitle("Nom d'utilisateur invalide");
+                usernameEntryAlert.setHeaderText("Il y avait un problème");
+                usernameEntryAlert.setContentText("Vous devez entrer un nom d'utilisateur!");
+           
+                usernameEntryAlert.showAndWait();
+            }
         } else if(password.isEmpty()) {
-           Alert passwordEntryAlert = new Alert(Alert.AlertType.WARNING);
-           passwordEntryAlert.setTitle("Invalid Password");
-           passwordEntryAlert.setHeaderText("There was a problem");
-           passwordEntryAlert.setContentText("You must enter a password!");
-           
-           passwordEntryAlert.showAndWait();
+            if(currentLanguage == "English") {
+                Alert passwordEntryAlert = new Alert(Alert.AlertType.WARNING);
+                passwordEntryAlert.setTitle("Invalid Password");
+                passwordEntryAlert.setHeaderText("There was a problem");
+                passwordEntryAlert.setContentText("You must enter a password!");
+
+                passwordEntryAlert.showAndWait();
+            } else if (currentLanguage == "French") {
+                Alert passwordEntryAlert = new Alert(Alert.AlertType.WARNING);
+                passwordEntryAlert.setTitle("Mot de passe incorrect");
+                passwordEntryAlert.setHeaderText("Il y avait un problème");
+                passwordEntryAlert.setContentText("Vous devez entrer un mot de passe!");
+
+                passwordEntryAlert.showAndWait();
+            }
         } else {
             if(validateLogin(userName, password)) {
                 //Open the home page
@@ -117,12 +172,21 @@ public class LoginController implements Initializable {
                 imsStage.setScene(homePageScene);
                 imsStage.show();
             } else {
-                Alert invalidCredentialsAlert = new Alert(Alert.AlertType.WARNING);
-                invalidCredentialsAlert.setTitle("Invalid Login Credentials");
-                invalidCredentialsAlert.setHeaderText("There was a problem");
-                invalidCredentialsAlert.setContentText("Your login credentials are invalid.");
+                if(currentLanguage == "English") {
+                  Alert invalidCredentialsAlert = new Alert(Alert.AlertType.WARNING);
+                    invalidCredentialsAlert.setTitle("Invalid Login Credentials");
+                    invalidCredentialsAlert.setHeaderText("There was a problem");
+                    invalidCredentialsAlert.setContentText("Your login credentials are invalid.");
 
-                invalidCredentialsAlert.showAndWait();
+                    invalidCredentialsAlert.showAndWait();  
+                } else if(currentLanguage == "French") {
+                    Alert invalidCredentialsAlert = new Alert(Alert.AlertType.WARNING);
+                    invalidCredentialsAlert.setTitle("Authentification invalide");
+                    invalidCredentialsAlert.setHeaderText("Il y avait un problème");
+                    invalidCredentialsAlert.setContentText("Vos informations de connexion ne sont pas valides.");
+
+                    invalidCredentialsAlert.showAndWait();
+                }
             } 
     }
     }
@@ -132,6 +196,16 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        if(locale == "fr_FR") {
+            EnglishButton.setVisible(true);
+            frenchButton.setVisible(false);
+            currentLanguage = "French";
+            WelcomeLabel.setText("Bienvenue");
+            UsernameLabel.setText("Nom d'utilisateur");
+            PasswordLabel.setText("mot de passe");
+            usernameEntry.setPromptText("Nom d'utilisateur");
+            passwordEntry.setPromptText("mot de passe");
+        }
     }    
     
 }

@@ -8,6 +8,7 @@ package bhellersoftwareii;
 import bhellersoftwareii.CustomerAppointment;
 import bhellersoftwareii.CustomerSearchController;
 import bhellersoftwareii.HomeController;
+import bhellersoftwareii.BusinessHoursException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -26,7 +27,9 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -128,7 +131,108 @@ public class AddAppointmentController implements Initializable {
     }
 
     @FXML
-    void NewApptSaveButtonPressed(ActionEvent event) throws ParseException, SQLException {
+    void NewApptSaveButtonPressed(ActionEvent event) throws ParseException, SQLException, BusinessHoursException {
+        //Check for exceptions
+        if(NewApptCustIDEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Customer ID field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewApptTitleTextEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Appointment Title field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewApptDescTextEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Appointment Description field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewApptLocTextEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Appointment Location field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewApptContactTextEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Appointment Contact field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewApptURLTextEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Appointment URL field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewApptDatePicker.getValue().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Appointment Date field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewApptStartTimeEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Appointment start field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        }else if(NewApptEndTimeEntry.getText().equals("")){
+            Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+            appointmentSaveAlert.setTitle("Invalid Action");
+            appointmentSaveAlert.setHeaderText("There was a problem");
+            appointmentSaveAlert.setContentText("Appointment end field cannot be empty");
+
+            //Close the window
+            appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                }
+                })); 
+        } else {
         //Collect New Appointment information
         String customerID = NewApptCustIDEntry.getText();
         int custId = Integer.parseInt(customerID);
@@ -137,10 +241,47 @@ public class AddAppointmentController implements Initializable {
         String apptLoc = NewApptLocTextEntry.getText();
         String apptContact = NewApptContactTextEntry.getText();
         String apptURL = NewApptURLTextEntry.getText();
-        LocalDateTime startingTime = getAppointmentStartTime();
+        LocalDateTime startLocal = getAppointmentStartTime();
+        LocalDateTime startingTime = getAppointmentStartTimeUTC();
+        LocalDateTime endLocal = getAppointmentEndTime();
         java.sql.Timestamp startTime = java.sql.Timestamp.valueOf(startingTime);
-        LocalDateTime endingTime = getAppointmentEndTime();
+        LocalDateTime endingTime = getAppointmentEndTimeUTC();
         java.sql.Timestamp endTime = java.sql.Timestamp.valueOf(endingTime);
+        try{
+        if(startLocal.getHour() < 8){
+            throw new BusinessHoursException("Start time must be within business hours (8AM to 6PM");
+        }
+        if(startLocal.getHour() >= 18){
+            throw new BusinessHoursException("Start time must be within business hours (8AM to 6PM");
+        }
+        
+        if(endLocal.getHour() < 8){
+            throw new BusinessHoursException("Start time must be within business hours (8AM to 6PM");
+        }
+        if(endLocal.getHour() >= 18){
+            throw new BusinessHoursException("Start time must be within business hours (8AM to 6PM");
+        }
+        } catch(BusinessHoursException e) {
+            e.printStackTrace();
+            return;
+        }
+        try{
+        for(CustomerAppointment a : CustomerAppointment.appointmentList) {
+            LocalDateTime aStart = getDateTimeFromString(a.getStartTime());
+            LocalDateTime aEnd = getDateTimeFromString(a.getEndTime());
+            if(startLocal.isAfter(aStart) && startLocal.isBefore(aEnd)) {
+                throw new OverlappingAppointmentException("Appointment times cannot overlap");
+            }
+            if(endLocal.isAfter(aStart) && endLocal.isBefore(aEnd)) {
+                throw new OverlappingAppointmentException("Appointment times cannot overlap");
+            }
+        }
+        } catch(OverlappingAppointmentException e) {
+            e.printStackTrace();
+            return;
+        }
+        
+        
         java.sql.Date today = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         String person = HomeController.currentUser;
         
@@ -153,17 +294,22 @@ public class AddAppointmentController implements Initializable {
                 Stage stage = (Stage) NewApptSaveButton.getScene().getWindow();
                 stage.close();
             } else {
-                Alert invalidCredentialsAlert = new Alert(Alert.AlertType.WARNING);
-                invalidCredentialsAlert.setTitle("Invalid Action");
-                invalidCredentialsAlert.setHeaderText("There was a problem");
-                invalidCredentialsAlert.setContentText("Appointment information was not saved");
+                Alert appointmentSaveAlert = new Alert(Alert.AlertType.WARNING);
+                appointmentSaveAlert.setTitle("Invalid Action");
+                appointmentSaveAlert.setHeaderText("There was a problem");
+                appointmentSaveAlert.setContentText("Appointment information was not saved");
 
-                invalidCredentialsAlert.showAndWait();
+                //Close the window
+                appointmentSaveAlert.showAndWait().ifPresent((response -> {
+                    if (response == ButtonType.OK) {
+                    }
+                    }));
             } 
+    }
     }
     
     
-        private boolean addAppointment(int customerID, String appointmentTitle, String appointmentDescription, 
+        private boolean addAppointment (int customerID, String appointmentTitle, String appointmentDescription, 
         String appointmentLocation, String appointmentContact, String appointmentURL, java.sql.Timestamp appointmentStartTime, java.sql.Timestamp appointmentEndTime, 
         String person, java.sql.Date today) throws SQLException{
         try{
@@ -207,7 +353,7 @@ public class AddAppointmentController implements Initializable {
         return true;
         }
     
-    LocalDateTime getAppointmentStartTime() throws ParseException {
+    LocalDateTime getAppointmentStartTimeUTC() throws ParseException {
         LocalDate localDate = NewApptDatePicker.getValue();
         DateFormat formatter = new SimpleDateFormat("HH:mm");
         Time start = new Time(formatter.parse(NewApptStartTimeEntry.getText()).getTime());
@@ -221,7 +367,17 @@ public class AddAppointmentController implements Initializable {
         return startDateTimeLocal;
     }
     
-    LocalDateTime getAppointmentEndTime() throws ParseException {
+    LocalDateTime getAppointmentStartTime() throws ParseException {
+        LocalDate localDate = NewApptDatePicker.getValue();
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        Time start = new Time(formatter.parse(NewApptStartTimeEntry.getText()).getTime());
+        LocalTime startingTime = start.toLocalTime();
+        LocalDateTime startTimeReturn = LocalDateTime.of(localDate, startingTime);
+        
+        return startTimeReturn;
+    }
+    
+    LocalDateTime getAppointmentEndTimeUTC() throws ParseException {
         LocalDate localDate = NewApptDatePicker.getValue();
         DateFormat formatter = new SimpleDateFormat("HH:mm");
         Time end = new Time(formatter.parse(NewApptEndTimeEntry.getText()).getTime());
@@ -233,6 +389,23 @@ public class AddAppointmentController implements Initializable {
         
         return endDateTimeLocal;
     }
+    
+        LocalDateTime getAppointmentEndTime() throws ParseException {
+        LocalDate localDate = NewApptDatePicker.getValue();
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        Time end = new Time(formatter.parse(NewApptEndTimeEntry.getText()).getTime());
+        LocalTime endingTime = end.toLocalTime();
+        LocalDateTime endTimeReturn = LocalDateTime.of(localDate, endingTime);
+        
+        return endTimeReturn;
+    }
+        
+    public LocalDateTime getDateTimeFromString(String date) throws ParseException {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("M-d-yyyy hh:mm a");
+        LocalDateTime dateToReturn = LocalDateTime.parse(date, format);
+        return dateToReturn;
+    }
+
     
 }
 

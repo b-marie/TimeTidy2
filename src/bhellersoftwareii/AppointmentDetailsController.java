@@ -150,7 +150,6 @@ public class AppointmentDetailsController implements Initializable {
     void ApptDetailsEditButtonClicked(ActionEvent event) throws IOException {
         System.out.println("Appointment Edit button clicked");
         HomeController.setClickedButtonID(ApptIDLabel.getText());
-        System.out.println("Clicked button ID in appointment details is " + HomeController.getClickedButtonID());
         Parent modAppt = FXMLLoader.load(getClass().getResource("ModifyAppointment.fxml"));
         Scene modApptScene = new Scene(modAppt);
         Stage modApptStage = new Stage();

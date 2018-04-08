@@ -14,17 +14,17 @@ import javafx.beans.property.StringProperty;
  *
  * @author Britt
  */
-public final class CustomerAppointmentMonthTitle {
+public final class CustomerAppointmentMonthObject {
     SimpleStringProperty appointmentMonth = new SimpleStringProperty("");
     SimpleStringProperty appointmentTitle = new SimpleStringProperty("");
     
     
-    public CustomerAppointmentMonthTitle(String month, String title) {
+    public CustomerAppointmentMonthObject(String month, String title) {
         this.setAppointmentMonth(month);
         this.setAppointmentTitle(title);
     }
     
-    public CustomerAppointmentMonthTitle() {
+    public CustomerAppointmentMonthObject() {
         
     }
     

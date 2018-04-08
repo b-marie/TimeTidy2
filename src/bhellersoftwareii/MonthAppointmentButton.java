@@ -85,7 +85,6 @@ public class MonthAppointmentButton extends Button {
        try{
             clickedButton.setApptID(apptID);
             HomeController.setClickedButtonID(apptID);
-            System.out.println("Home controller thing is " + HomeController.getClickedButtonID());
             Parent apptDetails = FXMLLoader.load(getClass().getResource("AppointmentDetails.fxml"));
             Scene apptDetailsScene = new Scene(apptDetails);
             Stage apptDetailsStage = new Stage();
